@@ -19,6 +19,7 @@
   --serif:'Instrument Serif',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
   --pad:clamp(16px,4vw,48px);
   --safe-l:env(safe-area-inset-left,0px); --safe-r:env(safe-area-inset-right,0px);
+  --ease:cubic-bezier(0.16, 1, 0.3, 1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:72px}
@@ -56,7 +57,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:68px}
   .menu a,.menu a.outline{padding:16px var(--pad);border:0;border-top:1px solid var(--line);border-radius:0;width:100%}
 }
 
-/* Responsive Hero Layout */
+/* Hero & Auto-Slide Carousel */
 .hero{padding:clamp(32px,6vw,72px) 0}
 .hero-grid{
   display:grid;
@@ -65,7 +66,7 @@ nav{display:flex;align-items:center;justify-content:space-between;height:68px}
   align-items:center;
 }
 @media(min-width:880px){
-  .hero-grid{grid-template-columns: 1.1fr 0.9fr;}
+  .hero-grid{grid-template-columns: 1fr 1fr;}
 }
 
 .hero small{display:block;color:var(--accent);font-size:13px;letter-spacing:.05em;margin-bottom:12px;text-transform:uppercase;font-weight:600}
@@ -77,9 +78,93 @@ h1{font:400 clamp(32px, 5.5vw, 68px)/1.08 var(--serif);letter-spacing:-.01em}
 .btn.solid{background:var(--accent);border-color:var(--accent);color:#141412}
 .btn.solid:hover{background:var(--text);border-color:var(--text)}
 
-.cover img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px;box-shadow:0 12px 32px rgba(0,0,0,0.4)}
-@media(min-width:880px){.cover img{aspect-ratio:16/11}}
-.cover figcaption{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+/* Carousel Slider Style */
+.slider-container{
+  position:relative;
+  width:100%;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 16px 40px rgba(0,0,0,0.5);
+  background:var(--surface);
+}
+.slider-track{
+  display:flex;
+  transition:transform 0.6s var(--ease);
+  width:100%;
+}
+.slide{
+  min-width:100%;
+  position:relative;
+  user-select:none;
+}
+.slide img{
+  width:100%;
+  aspect-ratio:16/11;
+  object-fit:cover;
+  cursor:zoom-in;
+  display:block;
+}
+@media(max-width:600px){
+  .slide img{aspect-ratio:4/3;}
+}
+
+/* Navigasi Panah & Titik Slider */
+.slider-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(20,20,18,0.65);
+  color:var(--text);
+  border:1px solid rgba(255,255,255,0.15);
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  backdrop-filter:blur(8px);
+  transition:all 0.3s ease;
+  font-size:16px;
+}
+.slider-arrow:hover{background:var(--accent);color:#141412;border-color:var(--accent);}
+.slider-arrow.prev{left:12px;}
+.slider-arrow.next{right:12px;}
+
+.slider-dots{
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+  z-index:5;
+  background:rgba(20,20,18,0.6);
+  padding:6px 12px;
+  border-radius:20px;
+  backdrop-filter:blur(8px);
+}
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+.dot.active{
+  background:var(--accent);
+  width:20px;
+  border-radius:10px;
+}
+.slide-caption{
+  margin-top:10px;
+  font-size:13px;
+  color:var(--muted);
+  text-align:center;
+}
 
 /* Sections & Grid Layouts */
 section{padding:clamp(48px, 7vw, 96px) 0;border-top:1px solid var(--line)}
@@ -92,7 +177,7 @@ ul.clean{list-style:none}
 ul.clean li{padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
 ul.clean li span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 
-/* Prices Section Auto-fit */
+/* Prices Section */
 .prices{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 220px), 1fr));gap:16px}
 .price{padding:clamp(20px, 3vw, 32px);background:var(--surface);border:1px solid var(--line);border-radius:4px;display:flex;flex-direction:column;justify-content:space-between}
 .price .dur{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}
@@ -151,7 +236,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 </header>
 
 <main id="top">
-  <!-- HERO SECTION AUTO-FIT -->
+  <!-- HERO SECTION WITH AUTO SLIDE CAROUSEL -->
   <div class="wrap hero">
     <div class="hero-grid">
       <div>
@@ -163,10 +248,26 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
           <a class="btn" href="#harga">Lihat harga</a>
         </div>
       </div>
-      <figure class="cover">
-        <img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak depan rumah dua lantai di Garut" data-zoom>
-        <figcaption>Tampak depan rumah dengan teras.</figcaption>
-      </figure>
+
+      <!-- AUTO SLIDE HERO SLIDER -->
+      <div>
+        <div class="slider-container" id="heroSlider">
+          <button class="slider-arrow prev" id="slidePrev" aria-label="Sebelumnya">❮</button>
+          <button class="slider-arrow next" id="slideNext" aria-label="Berikutnya">❯</button>
+          <div class="slider-track" id="sliderTrack">
+            <div class="slide"><img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak depan rumah dengan teras" data-caption="Tampak depan rumah (HOOK)" data-zoom></div>
+            <div class="slide"><img src="Tampak%20Depan%20kiri%20POV%20GMAPS.jpg" alt="Tampak depan dari sisi kiri" data-caption="Tampak depan dari sisi kiri" data-zoom></div>
+            <div class="slide"><img src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" alt="Ruang keluarga" data-caption="Ruang keluarga (bisa jadi kamar tambahan)" data-zoom></div>
+            <div class="slide"><img src="Kamar%20Tidur.jpg" alt="Kamar tidur utama" data-caption="Kamar tidur utama" data-zoom></div>
+            <div class="slide"><img src="Dapur%20Tangga%20wc.jpg" alt="Dapur dan tangga" data-caption="Area dapur & tangga ke lantai 2" data-zoom></div>
+            <div class="slide"><img src="WC.jpg" alt="Kamar mandi" data-caption="Kamar mandi" data-zoom></div>
+            <div class="slide"><img src="Gudang%20Kecil%20dan%20tempat%20jemuran.jpg" alt="Gudang dan jemuran" data-caption="Gudang kecil & tempat jemuran" data-zoom></div>
+            <div class="slide"><img src="pemandangan.jpg" alt="Pemandangan lantai 2" data-caption="Pemandangan dari lantai 2" data-zoom></div>
+          </div>
+          <div class="slider-dots" id="sliderDots"></div>
+        </div>
+        <p class="slide-caption" id="slideCaptionText">Tampak depan rumah (HOOK)</p>
+      </div>
     </div>
   </div>
 
@@ -328,6 +429,64 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   if(lb) {
     lb.addEventListener("click", function(){ lb.classList.remove("open"); });
     document.addEventListener("keydown", function(e){ if(e.key === "Escape") lb.classList.remove("open"); });
+  }
+
+  // AUTO-SLIDE INTERACTIVE HERO CAROUSEL SCRIPT
+  var track = document.getElementById("sliderTrack");
+  var slides = document.querySelectorAll("#sliderTrack .slide");
+  var dotsContainer = document.getElementById("sliderDots");
+  var captionText = document.getElementById("slideCaptionText");
+  var prevBtn = document.getElementById("slidePrev");
+  var nextBtn = document.getElementById("slideNext");
+  var currentIndex = 0;
+  var slideInterval;
+
+  // Render Dots Dynamically
+  slides.forEach(function(_, idx) {
+    var dot = document.createElement("div");
+    dot.classList.add("dot");
+    if(idx === 0) dot.classList.add("active");
+    dot.addEventListener("click", function() { goToSlide(idx); resetTimer(); });
+    dotsContainer.appendChild(dot);
+  });
+
+  var dots = document.querySelectorAll(".dot");
+
+  function updateSlider() {
+    track.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
+    dots.forEach(function(d, i){ d.classList.toggle("active", i === currentIndex); });
+    var currentImg = slides[currentIndex].querySelector("img");
+    if(currentImg && captionText) {
+      captionText.textContent = currentImg.getAttribute("data-caption") || "";
+    }
+  }
+
+  function goToSlide(index) {
+    currentIndex = (index + slides.length) % slides.length;
+    updateSlider();
+  }
+
+  function nextSlide() { goToSlide(currentIndex + 1); }
+  function prevSlide() { goToSlide(currentIndex - 1); }
+
+  if(nextBtn) nextBtn.addEventListener("click", function(){ nextSlide(); resetTimer(); });
+  if(prevBtn) prevBtn.addEventListener("click", function(){ prevSlide(); resetTimer(); });
+
+  function startTimer() { slideInterval = setInterval(nextSlide, 3500); }
+  function resetTimer() { clearInterval(slideInterval); startTimer(); }
+
+  startTimer();
+
+  // Touch Swipe Gesture for Slider
+  var sliderContainer = document.getElementById("heroSlider");
+  var startX = 0;
+  if(sliderContainer) {
+    sliderContainer.addEventListener("touchstart", function(e){ startX = e.touches[0].clientX; }, {passive:true});
+    sliderContainer.addEventListener("touchend", function(e){
+      var diffX = startX - e.changedTouches[0].clientX;
+      if(diffX > 40) { nextSlide(); resetTimer(); }
+      else if(diffX < -40) { prevSlide(); resetTimer(); }
+    }, {passive:true});
   }
 </script>
 </body>
