@@ -27,6 +27,7 @@
   --sans: 'Manrope', system-ui, sans-serif;
   --pad: clamp(20px, 5vw, 72px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,16 +44,36 @@ img { display: block; max-width: 100%; }
 
 .wrap { padding: 0 var(--pad); max-width: min(1440px, 100%); margin: 0 auto; }
 
-/* Navigation Styling & Animation */
+/* Page Transition Overlay (Astra.co.id Style) */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease), opacity 0.3s ease;
+}
+.page-transition.active {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+/* Smart Sticky Header Navigation */
 header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(20, 20, 18, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(20, 20, 18, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
   transition: transform 0.4s var(--ease), background-color 0.4s var(--ease);
+}
+header.hide-nav {
+  transform: translateY(-100%);
 }
 
 nav {
@@ -71,7 +92,7 @@ nav {
   text-transform: uppercase;
   transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
 }
-.logo:hover { transform: scale(1.02); opacity: 0.9; }
+.logo:hover { transform: scale(1.03); opacity: 0.92; }
 .logo img { width: 38px; height: 38px; border-radius: 9px; }
 
 .menu { display: flex; align-items: center; gap: 32px; }
@@ -90,9 +111,9 @@ nav {
   bottom: 0;
   left: 0;
   width: 0;
-  height: 1px;
+  height: 1.5px;
   background: var(--accent);
-  transition: width 0.3s var(--ease);
+  transition: width 0.35s var(--ease);
 }
 .menu a:hover::after, .menu a.on::after { width: 100%; }
 .menu a:hover, .menu a.on { color: var(--text); }
@@ -101,14 +122,14 @@ nav {
   border: 1px solid var(--text);
   color: var(--text);
   padding: 11px 22px;
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
 }
 .menu a.outline::after { display: none; }
 .menu a.outline:hover {
   background: var(--text);
   color: var(--bg);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(236, 235, 229, 0.15);
+  box-shadow: 0 8px 20px rgba(236, 235, 229, 0.15);
 }
 
 .burger {
@@ -138,8 +159,8 @@ nav {
     border-bottom: 1px solid var(--line);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-10px);
-    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    transform: translateY(-12px);
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
   }
   .menu.open {
     opacity: 1;
@@ -167,17 +188,14 @@ nav {
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  
-  /* Latar belakang menggunakan file yang diunggah ke GitHub */
   background-image: 
-    radial-gradient(circle at center, rgba(20, 20, 18, 0.7) 0%, rgba(20, 20, 18, 0.95) 85%),
+    radial-gradient(circle at center, rgba(20, 20, 18, 0.65) 0%, rgba(20, 20, 18, 0.95) 85%),
     url("LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover, contain;
   transition: transform 0.1s ease-out;
 }
-
 .hero:active { cursor: grabbing; }
 
 .hero::before {
@@ -188,7 +206,7 @@ nav {
   bottom: 10%;
   width: 1px;
   background: var(--line);
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
 }
 .hero::after {
@@ -199,7 +217,7 @@ nav {
   width: 34%;
   height: 1px;
   background: var(--line);
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -208,7 +226,7 @@ nav {
   z-index: 2;
   max-width: 900px;
   pointer-events: auto;
-  transition: transform 0.2s var(--ease);
+  will-change: transform;
 }
 
 .hero h1 {
@@ -243,26 +261,42 @@ nav {
   cursor: pointer;
   background: none;
   color: var(--text);
-  transition: all 0.3s var(--ease);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.35s var(--ease);
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--text);
+  z-index: -1;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease);
+}
+.btn:hover::before {
+  transform: translateY(0);
 }
 .btn:hover {
-  background: var(--text);
   color: var(--bg);
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.4);
 }
 .btn.solid {
   background: var(--accent);
   border-color: var(--accent);
   color: #141412;
 }
-.btn.solid:hover {
+.btn.solid::before {
   background: var(--text);
+}
+.btn.solid:hover {
   border-color: var(--text);
   color: var(--bg);
 }
 
-/* Scroll / Drag Indicator Button */
+/* Scroll Button */
 .scroll-btn {
   position: absolute;
   bottom: 28px;
@@ -282,7 +316,6 @@ nav {
   transition: all 0.3s var(--ease);
   animation: bounce 2.2s infinite var(--ease);
 }
-
 .scroll-btn:hover {
   color: var(--text);
   border-color: var(--accent);
@@ -294,7 +327,7 @@ nav {
   50% { transform: translate(-50%, 8px); }
 }
 
-/* SECTIONS & INTERACTIVE LIST ROWS */
+/* SECTIONS & LIST ROWS */
 section {
   padding: clamp(56px, 9vw, 120px) 0;
   border-top: 1px solid var(--line);
@@ -310,7 +343,9 @@ section {
   align-items: center;
   padding: clamp(28px, 4vw, 48px) 0;
   border-top: 1px solid var(--line);
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
+  position: relative;
+  overflow: hidden;
 }
 .row:last-of-type { border-bottom: 1px solid var(--line); }
 
@@ -322,7 +357,7 @@ section {
 .row b {
   display: block;
   font: 400 clamp(28px, 4.5vw, 56px)/1.1 var(--serif);
-  transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: color 0.35s var(--ease), transform 0.35s var(--ease);
 }
 .row span.d {
   color: var(--muted);
@@ -332,18 +367,131 @@ section {
 }
 .row .ar {
   font-size: 28px;
-  transition: transform 0.3s var(--ease), color 0.3s var(--ease);
+  transition: transform 0.35s var(--ease), color 0.35s var(--ease);
 }
 
 .row:hover {
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 24px;
+  padding-right: 24px;
   background: var(--surface);
   border-color: var(--accent);
 }
 .row:hover b { color: var(--accent); transform: translateX(8px); }
 .row:hover .n { color: var(--text); }
 .row:hover .ar { transform: translateX(10px); color: var(--accent); }
+
+/* GALERI & LIGHTBOX INTERAKTIF MODAL */
+.gal-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.gal-preview-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.gal-preview-item img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.gal-preview-item:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+}
+.gal-preview-item:hover img {
+  transform: scale(1.06);
+}
+.gal-preview-item .cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(20,20,18,0.95), transparent);
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.gal-preview-item:hover .cap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 8, 0.94);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+  padding: 24px;
+}
+.lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox-img-wrapper {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.92);
+  transition: transform 0.4s var(--ease-bounce);
+}
+.lightbox.active .lightbox-img-wrapper {
+  transform: scale(1);
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.lightbox-caption {
+  margin-top: 16px;
+  color: var(--text);
+  font-size: 14px;
+  text-align: center;
+}
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--line);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--ease);
+}
+.lightbox-close:hover {
+  background: var(--accent);
+  color: var(--bg);
+  transform: rotate(90deg);
+}
 
 .contactline {
   display: flex;
@@ -382,7 +530,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   padding: 13px 20px;
   border-radius: 999px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 .wa-float:hover {
   transform: translateY(-4px) scale(1.05);
@@ -392,8 +540,8 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 /* ANIMASI SCROLL REVEAL HALUS */
 .reveal {
   opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transform: translateY(40px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
 }
 .reveal.active {
   opacity: 1;
@@ -407,43 +555,47 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 </head>
 <body>
 
+<!-- PAGE TRANSITION OVERLAY -->
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- STICKY HEADER NAV -->
 <header id="header">
   <div class="wrap">
     <nav aria-label="Navigasi utama">
-      <a class="logo" href="index.html">
+      <a class="logo transition-link" href="index.html">
         <img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38">
         <span>Sasaka Bale Property</span>
       </a>
       <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
       <div class="menu" id="menu">
-        <a href="listing.html">Listing Property</a>
-        <a href="titip.html">Titip Jual/Sewa</a>
-        <a href="about.html">About</a>
-        <a class="outline" href="about.html#kontak">Kontak</a>
+        <a class="transition-link" href="listing.html">Listing Property</a>
+        <a class="transition-link" href="titip.html">Titip Jual/Sewa</a>
+        <a class="transition-link" href="about.html">About</a>
+        <a class="outline transition-link" href="about.html#kontak">Kontak</a>
       </div>
     </nav>
   </div>
 </header>
 
 <main>
-  <!-- FIRST PAGE / HERO SECTION (Dapat ditarik/drag mouse & touch gesture) -->
+  <!-- FIRST PAGE / HERO SECTION -->
   <section class="hero" id="heroSection">
-    <div class="hero-content">
+    <div class="hero-content" id="heroContent">
       <p class="eyebrow reveal">Sasaka Bale Property</p>
       <h1 class="reveal reveal-delay-1">Terpercaya untuk solusi properti Anda.</h1>
       <p class="sub reveal reveal-delay-2">Sewa, kontrak, dan titip jual properti di Garut dan Bandung.</p>
       <div class="actions reveal reveal-delay-3">
-        <a class="btn solid" href="listing.html">Lihat listing property</a>
-        <a class="btn" href="titip.html">Titip properti Anda</a>
+        <a class="btn solid transition-link" href="listing.html">Lihat listing property</a>
+        <a class="btn transition-link" href="titip.html">Titip properti Anda</a>
       </div>
     </div>
-    <div class="scroll-btn" id="scrollBtn"> Scroll ↓</div>
+    <div class="scroll-btn" id="scrollBtn">Scroll ↓</div>
   </section>
 
   <!-- LIST MENU INTERAKTIF -->
   <section id="menuSection">
     <div class="wrap">
-      <a class="row reveal" href="listing.html">
+      <a class="row reveal transition-link" href="listing.html">
         <span class="n">01</span>
         <span>
           <b>Property yang sedang listing</b>
@@ -451,7 +603,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
         </span>
         <span class="ar">→</span>
       </a>
-      <a class="row reveal reveal-delay-1" href="titip.html">
+      <a class="row reveal reveal-delay-1 transition-link" href="titip.html">
         <span class="n">02</span>
         <span>
           <b>Titip memasarkan jual/sewa</b>
@@ -459,7 +611,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
         </span>
         <span class="ar">→</span>
       </a>
-      <a class="row reveal reveal-delay-2" href="about.html">
+      <a class="row reveal reveal-delay-2 transition-link" href="about.html">
         <span class="n">03</span>
         <span>
           <b>About dan kontak pemasaran</b>
@@ -467,6 +619,28 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
         </span>
         <span class="ar">→</span>
       </a>
+    </div>
+  </section>
+
+  <!-- PRATINJAU GALERI PROPERTI INTERAKTIF -->
+  <section>
+    <div class="wrap reveal">
+      <h2>Pratinjau Properti Unggulan</h2>
+      <p style="color: var(--muted); margin-top: 6px;">Klik foto di bawah untuk membuka galeri foto interaktif.</p>
+      <div class="gal-preview">
+        <div class="gal-preview-item" data-lightbox-src="Tampak%20Depan%20Kanan%20HOOK.jpg" data-caption="Kontrakan Pak Aldy Pemda Garut - Tampak Depan">
+          <img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak Depan Rumah" loading="lazy">
+          <div class="cap">Tampak Depan Hook (Garut)</div>
+        </div>
+        <div class="gal-preview-item" data-lightbox-src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" data-caption="Ruang Keluarga Nyaman">
+          <img src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" alt="Ruang Keluarga" loading="lazy">
+          <div class="cap">Ruang Keluarga</div>
+        </div>
+        <div class="gal-preview-item" data-lightbox-src="Kamar%20Tidur.jpg" data-caption="Kamar Tidur Utama">
+          <img src="Kamar%20Tidur.jpg" alt="Kamar Tidur Utama" loading="lazy">
+          <div class="cap">Kamar Tidur Utama</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -491,20 +665,44 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
 <a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
 
-<script>
-  // Navigasi Mobile Menu
-  var m = document.getElementById("menu"), b = document.getElementById("burger");
-  b.onclick = function() {
-    var open = m.classList.toggle("open");
-    b.setAttribute("aria-expanded", open);
-    b.textContent = open ? "✕" : "☰";
-  };
-  m.onclick = function() { 
-    m.classList.remove("open"); 
-    b.textContent = "☰";
-  };
+<!-- LIGHTBOX MODAL (ASTRA STYLE PHOTO VIEWER) -->
+<div class="lightbox" id="lightboxModal">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">✕</button>
+  <div class="lightbox-img-wrapper">
+    <img src="" id="lightboxImg" alt="Foto Properti">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
 
-  // Scroll Reveal Animation
+<script>
+  // 1. MOBILE BURGER MENU TOGGLE
+  var m = document.getElementById("menu"), b = document.getElementById("burger");
+  if(b) {
+    b.onclick = function() {
+      var open = m.classList.toggle("open");
+      b.setAttribute("aria-expanded", open);
+      b.textContent = open ? "✕" : "☰";
+    };
+    m.onclick = function() { 
+      m.classList.remove("open"); 
+      b.textContent = "☰";
+    };
+  }
+
+  // 2. SMART STICKY HEADER AUTO-HIDE ON SCROLL
+  var header = document.getElementById("header");
+  var lastScrollY = window.scrollY;
+  window.addEventListener("scroll", function() {
+    var currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      header.classList.add("hide-nav");
+    } else {
+      header.classList.remove("hide-nav");
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+
+  // 3. SCROLL REVEAL & PARALLAX EFFECT
   function revealOnScroll() {
     var reveals = document.querySelectorAll(".reveal");
     var windowHeight = window.innerHeight;
@@ -515,24 +713,31 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
         el.classList.add("active");
       }
     });
+
+    // Parallax Effect Hero
+    var heroContent = document.getElementById("heroContent");
+    if (heroContent) {
+      var sc = window.scrollY;
+      heroContent.style.transform = "translateY(" + (sc * 0.25) + "px)";
+      heroContent.style.opacity = Math.max(0, 1 - (sc / 600));
+    }
   }
-  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("scroll", revealOnScroll, { passive: true });
   window.addEventListener("load", revealOnScroll);
 
-  // Scroll Button Click Handler
+  // 4. SCROLL BUTTON HANDLER
   var scrollBtn = document.getElementById("scrollBtn");
   var menuSection = document.getElementById("menuSection");
-  scrollBtn.addEventListener("click", function() {
-    menuSection.scrollIntoView({ behavior: "smooth" });
-  });
+  if(scrollBtn && menuSection) {
+    scrollBtn.addEventListener("click", function() {
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    });
+  }
 
-  // DRAG / TOUCH SWIPE GESTURE UNTUK FIRST PAGE HERO
+  // 5. DRAG & TOUCH SWIPE GESTURE UNTUK HERO
   var hero = document.getElementById("heroSection");
-  var startY = 0;
-  var currentY = 0;
-  var isDragging = false;
+  var startY = 0, isDragging = false;
 
-  // Touch Events (HP / Tablet)
   hero.addEventListener("touchstart", function(e) {
     startY = e.touches[0].clientY;
     isDragging = true;
@@ -540,19 +745,15 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
   hero.addEventListener("touchmove", function(e) {
     if (!isDragging) return;
-    currentY = e.touches[0].clientY;
-    var diffY = startY - currentY;
-    if (diffY > 50) { // Geser ke atas melebihi 50px
+    var diffY = startY - e.touches[0].clientY;
+    if (diffY > 50) {
       isDragging = false;
       menuSection.scrollIntoView({ behavior: "smooth" });
     }
   }, { passive: true });
 
-  hero.addEventListener("touchend", function() {
-    isDragging = false;
-  });
+  hero.addEventListener("touchend", function() { isDragging = false; });
 
-  // Mouse Drag Events (Laptop / PC)
   hero.addEventListener("mousedown", function(e) {
     startY = e.clientY;
     isDragging = true;
@@ -560,16 +761,55 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
   window.addEventListener("mousemove", function(e) {
     if (!isDragging) return;
-    currentY = e.clientY;
-    var diffY = startY - currentY;
-    if (diffY > 60) {
+    if (startY - e.clientY > 60) {
       isDragging = false;
       menuSection.scrollIntoView({ behavior: "smooth" });
     }
   });
 
-  window.addEventListener("mouseup", function() {
-    isDragging = false;
+  window.addEventListener("mouseup", function() { isDragging = false; });
+
+  // 6. INTERACTIVE LIGHTBOX MODAL (BUKA FOTO INTERAKTIF)
+  var lightbox = document.getElementById("lightboxModal");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxCaption = document.getElementById("lightboxCaption");
+  var lightboxClose = document.getElementById("lightboxClose");
+
+  document.querySelectorAll("[data-lightbox-src]").forEach(function(item) {
+    item.addEventListener("click", function() {
+      var src = item.getAttribute("data-lightbox-src");
+      var cap = item.getAttribute("data-caption") || "";
+      lightboxImg.src = src;
+      lightboxCaption.textContent = cap;
+      lightbox.classList.add("active");
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove("active");
+  }
+
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  // 7. PAGE TRANSITION OVERLAY (ASTRA STYLE SLIDE TRANSITION)
+  var pageTransition = document.getElementById("pageTransition");
+  document.querySelectorAll(".transition-link").forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      var href = link.getAttribute("href");
+      if (href && !href.startsWith("#") && !href.startsWith("https://wa.me") && !href.startsWith("mailto:")) {
+        e.preventDefault();
+        pageTransition.classList.add("active");
+        setTimeout(function() {
+          window.location.href = href;
+        }, 450);
+      }
+    });
   });
 </script>
 </body>
