@@ -25,7 +25,7 @@
   --accent: #a9c08f;
   --serif: 'Instrument Serif', Georgia, serif;
   --sans: 'Manrope', system-ui, sans-serif;
-  --pad: clamp(20px, 5vw, 72px);
+  --pad: clamp(16px, 4vw, 56px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -35,16 +35,22 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-t
 body {
   background: var(--bg);
   color: var(--text);
-  font: 400 clamp(15px, .9vw + 11px, 18px)/1.7 var(--sans);
+  font: 400 clamp(15px, 0.8vw + 11px, 18px)/1.7 var(--sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
-.wrap { padding: 0 var(--pad); max-width: min(1440px, 100%); margin: 0 auto; }
+/* PERBAIKAN WRAPPER FULL-WIDTH RESPONSIF */
+.wrap { 
+  width: 100%;
+  max-width: min(1600px, 95vw); 
+  padding: 0 var(--pad); 
+  margin: 0 auto; 
+}
 
-/* Page Transition Overlay (Astra.co.id Style) */
+/* Page Transition Overlay */
 .page-transition {
   position: fixed;
   inset: 0;
@@ -66,7 +72,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(20, 20, 18, 0.82);
+  background: rgba(20, 20, 18, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
@@ -95,7 +101,7 @@ nav {
 .logo:hover { transform: scale(1.03); opacity: 0.92; }
 .logo img { width: 38px; height: 38px; border-radius: 9px; }
 
-.menu { display: flex; align-items: center; gap: 32px; }
+.menu { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
 .menu a {
   position: relative;
   font-size: 12px;
@@ -121,7 +127,7 @@ nav {
 .menu a.outline {
   border: 1px solid var(--text);
   color: var(--text);
-  padding: 11px 22px;
+  padding: 10px 20px;
   transition: all 0.35s var(--ease);
 }
 .menu a.outline::after { display: none; }
@@ -174,7 +180,7 @@ nav {
   }
 }
 
-/* HERO / FIRST PAGE - BACKGROUND & DRAGGABLE INTERACTION */
+/* HERO / FIRST PAGE RESPONSIF FULL LAYAR */
 .hero {
   position: relative;
   min-height: calc(100vh - 72px);
@@ -183,62 +189,41 @@ nav {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 64px var(--pad);
+  padding: clamp(48px, 6vw, 96px) var(--pad);
   overflow: hidden;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
   background-image: 
-    radial-gradient(circle at center, rgba(20, 20, 18, 0.65) 0%, rgba(20, 20, 18, 0.95) 85%),
+    radial-gradient(circle at center, rgba(20, 20, 18, 0.6) 0%, rgba(20, 20, 18, 0.95) 85%),
     url("LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.png");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover, contain;
-  transition: transform 0.1s ease-out;
 }
 .hero:active { cursor: grabbing; }
-
-.hero::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 10%;
-  bottom: 10%;
-  width: 1px;
-  background: var(--line);
-  opacity: 0.25;
-  pointer-events: none;
-}
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 6%;
-  top: 22%;
-  width: 34%;
-  height: 1px;
-  background: var(--line);
-  opacity: 0.25;
-  pointer-events: none;
-}
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1100px;
   pointer-events: auto;
-  will-change: transform;
+  margin: 0 auto;
 }
 
 .hero h1 {
-  font: 800 clamp(40px, 8.4vw, 120px)/1 var(--sans);
+  font: 800 clamp(36px, 7vw, 110px)/1 var(--sans);
   letter-spacing: -.045em;
-  margin: 28px auto 0;
+  margin: 20px auto 0;
+  max-width: 18ch;
 }
 
 .hero p.sub {
-  margin: 28px auto 0;
-  max-width: 44ch;
+  margin: 24px auto 0;
+  max-width: 52ch;
   color: var(--muted);
+  font-size: clamp(16px, 1.4vw, 22px);
 }
 
 .hero .actions {
@@ -250,7 +235,9 @@ nav {
 }
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 48px;
   padding: 14px 28px;
   border: 1px solid var(--text);
@@ -275,9 +262,7 @@ nav {
   transform: translateY(100%);
   transition: transform 0.35s var(--ease);
 }
-.btn:hover::before {
-  transform: translateY(0);
-}
+.btn:hover::before { transform: translateY(0); }
 .btn:hover {
   color: var(--bg);
   transform: translateY(-3px);
@@ -288,18 +273,13 @@ nav {
   border-color: var(--accent);
   color: #141412;
 }
-.btn.solid::before {
-  background: var(--text);
-}
-.btn.solid:hover {
-  border-color: var(--text);
-  color: var(--bg);
-}
+.btn.solid::before { background: var(--text); }
+.btn.solid:hover { border-color: var(--text); color: var(--bg); }
 
 /* Scroll Button */
 .scroll-btn {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 11px;
@@ -307,8 +287,8 @@ nav {
   text-transform: uppercase;
   color: var(--muted);
   z-index: 5;
-  background: rgba(29, 29, 26, 0.6);
-  padding: 8px 18px;
+  background: rgba(29, 29, 26, 0.7);
+  padding: 8px 20px;
   border-radius: 20px;
   border: 1px solid var(--line);
   cursor: pointer;
@@ -329,7 +309,7 @@ nav {
 
 /* SECTIONS & LIST ROWS */
 section {
-  padding: clamp(56px, 9vw, 120px) 0;
+  padding: clamp(48px, 8vw, 110px) 0;
   border-top: 1px solid var(--line);
   background: var(--bg);
   position: relative;
@@ -338,32 +318,30 @@ section {
 
 .row {
   display: grid;
-  grid-template-columns: clamp(40px, 8vw, 96px) 1fr auto;
-  gap: 16px;
+  grid-template-columns: clamp(40px, 6vw, 80px) 1fr auto;
+  gap: clamp(16px, 3vw, 32px);
   align-items: center;
-  padding: clamp(28px, 4vw, 48px) 0;
+  padding: clamp(24px, 3.5vw, 44px) 0;
   border-top: 1px solid var(--line);
   transition: all 0.35s var(--ease);
-  position: relative;
-  overflow: hidden;
 }
 .row:last-of-type { border-bottom: 1px solid var(--line); }
 
 .row .n {
-  font: 400 clamp(22px, 3vw, 34px) var(--serif);
+  font: 400 clamp(20px, 2.5vw, 32px) var(--serif);
   color: var(--muted);
   transition: color 0.3s var(--ease);
 }
 .row b {
   display: block;
-  font: 400 clamp(28px, 4.5vw, 56px)/1.1 var(--serif);
+  font: 400 clamp(24px, 3.8vw, 52px)/1.1 var(--serif);
   transition: color 0.35s var(--ease), transform 0.35s var(--ease);
 }
 .row span.d {
   color: var(--muted);
   display: block;
   margin-top: 6px;
-  max-width: 52ch;
+  font-size: clamp(14px, 1.1vw, 17px);
 }
 .row .ar {
   font-size: 28px;
@@ -371,8 +349,8 @@ section {
 }
 
 .row:hover {
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: clamp(12px, 2vw, 24px);
+  padding-right: clamp(12px, 2vw, 24px);
   background: var(--surface);
   border-color: var(--accent);
 }
@@ -380,11 +358,11 @@ section {
 .row:hover .n { color: var(--text); }
 .row:hover .ar { transform: translateX(10px); color: var(--accent); }
 
-/* GALERI & LIGHTBOX INTERAKTIF MODAL */
+/* GALERI PREVIEW GRID AUTO-FIT */
 .gal-preview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
   margin-top: 32px;
 }
 .gal-preview-item {
@@ -398,7 +376,7 @@ section {
 }
 .gal-preview-item img {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16/10;
   object-fit: cover;
   transition: transform 0.6s var(--ease);
 }
@@ -406,9 +384,7 @@ section {
   transform: translateY(-6px);
   border-color: var(--accent);
 }
-.gal-preview-item:hover img {
-  transform: scale(1.06);
-}
+.gal-preview-item:hover img { transform: scale(1.05); }
 .gal-preview-item .cap {
   position: absolute;
   inset: auto 0 0 0;
@@ -420,10 +396,7 @@ section {
   transform: translateY(10px);
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
-.gal-preview-item:hover .cap {
-  opacity: 1;
-  transform: translateY(0);
-}
+.gal-preview-item:hover .cap { opacity: 1; transform: translateY(0); }
 
 /* Lightbox Modal */
 .lightbox {
@@ -440,36 +413,26 @@ section {
   transition: opacity 0.4s var(--ease);
   padding: 24px;
 }
-.lightbox.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+.lightbox.active { opacity: 1; pointer-events: auto; }
 .lightbox-img-wrapper {
   position: relative;
-  max-width: 90vw;
-  max-height: 85vh;
+  max-width: 92vw;
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   transform: scale(0.92);
   transition: transform 0.4s var(--ease-bounce);
 }
-.lightbox.active .lightbox-img-wrapper {
-  transform: scale(1);
-}
+.lightbox.active .lightbox-img-wrapper { transform: scale(1); }
 .lightbox img {
   max-width: 100%;
-  max-height: 75vh;
+  max-height: 78vh;
   object-fit: contain;
   border-radius: 4px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
-.lightbox-caption {
-  margin-top: 16px;
-  color: var(--text);
-  font-size: 14px;
-  text-align: center;
-}
+.lightbox-caption { margin-top: 16px; color: var(--text); font-size: 14px; text-align: center; }
 .lightbox-close {
   position: absolute;
   top: 24px;
@@ -487,11 +450,7 @@ section {
   justify-content: center;
   transition: all 0.3s var(--ease);
 }
-.lightbox-close:hover {
-  background: var(--accent);
-  color: var(--bg);
-  transform: rotate(90deg);
-}
+.lightbox-close:hover { background: var(--accent); color: var(--bg); transform: rotate(90deg); }
 
 .contactline {
   display: flex;
@@ -504,10 +463,7 @@ section {
   border-bottom: 1px solid var(--line);
   transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
 }
-.contactline a:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
+.contactline a:hover { color: var(--accent); border-color: var(--accent); }
 
 footer {
   border-top: 1px solid var(--line);
@@ -520,7 +476,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
 .wa-float {
   position: fixed;
-  right: 18px;
+  right: max(18px, env(safe-area-inset-right, 0px));
   bottom: max(18px, env(safe-area-inset-bottom, 0px));
   z-index: 90;
   background: var(--accent);
@@ -537,7 +493,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   box-shadow: 0 10px 25px rgba(169, 192, 143, 0.4);
 }
 
-/* ANIMASI SCROLL REVEAL HALUS */
+/* SCROLL REVEAL ANIMATION */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -665,7 +621,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
 <a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
 
-<!-- LIGHTBOX MODAL (ASTRA STYLE PHOTO VIEWER) -->
+<!-- LIGHTBOX MODAL -->
 <div class="lightbox" id="lightboxModal">
   <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">✕</button>
   <div class="lightbox-img-wrapper">
@@ -714,7 +670,6 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
       }
     });
 
-    // Parallax Effect Hero
     var heroContent = document.getElementById("heroContent");
     if (heroContent) {
       var sc = window.scrollY;
@@ -769,7 +724,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 
   window.addEventListener("mouseup", function() { isDragging = false; });
 
-  // 6. INTERACTIVE LIGHTBOX MODAL (BUKA FOTO INTERAKTIF)
+  // 6. INTERACTIVE LIGHTBOX MODAL
   var lightbox = document.getElementById("lightboxModal");
   var lightboxImg = document.getElementById("lightboxImg");
   var lightboxCaption = document.getElementById("lightboxCaption");
@@ -785,9 +740,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     });
   });
 
-  function closeLightbox() {
-    lightbox.classList.remove("active");
-  }
+  function closeLightbox() { lightbox.classList.remove("active"); }
 
   if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
   lightbox.addEventListener("click", function(e) {
@@ -797,7 +750,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     if (e.key === "Escape") closeLightbox();
   });
 
-  // 7. PAGE TRANSITION OVERLAY (ASTRA STYLE SLIDE TRANSITION)
+  // 7. PAGE TRANSITION OVERLAY
   var pageTransition = document.getElementById("pageTransition");
   document.querySelectorAll(".transition-link").forEach(function(link) {
     link.addEventListener("click", function(e) {
