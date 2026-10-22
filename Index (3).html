@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sasaka Bale Property | Properti di Garut dan Bandung</title>
+<meta name="description" content="Sewa, kontrak, dan titip jual properti di Garut dan Bandung. Terpercaya untuk solusi properti Anda.">
+<meta property="og:title" content="Sasaka Bale Property | Properti di Garut dan Bandung">
+<meta property="og:description" content="Sewa, kontrak, dan titip jual properti di Garut dan Bandung. Terpercaya untuk solusi properti Anda.">
+<meta property="og:image" content="Tampak%20Depan%20Kanan%20HOOK.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="Logo%20Sasaka%20Bale%20Property.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #141412;
+  --surface: #1d1d1a;
+  --line: #33332e;
+  --text: #ecebe5;
+  --muted: #a09f96;
+  --accent: #a9c08f;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+  --pad: clamp(20px, 5vw, 72px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 400 clamp(15px, .9vw + 11px, 18px)/1.7 var(--sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.wrap { padding: 0 var(--pad); max-width: min(1440px, 100%); margin: 0 auto; }
+
+/* Navigation Styling & Animation */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(20, 20, 18, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  transition: transform 0.4s var(--ease), background-color 0.4s var(--ease);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 13px var(--sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.logo:hover { transform: scale(1.02); opacity: 0.9; }
+.logo img { width: 38px; height: 38px; border-radius: 9px; }
+
+.menu { display: flex; align-items: center; gap: 32px; }
+.menu a {
+  position: relative;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+  padding: 4px 0;
+}
+.menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease);
+}
+.menu a:hover::after, .menu a.on::after { width: 100%; }
+.menu a:hover, .menu a.on { color: var(--text); }
+
+.menu a.outline {
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 11px 22px;
+  transition: all 0.3s var(--ease);
+}
+.menu a.outline::after { display: none; }
+.menu a.outline:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(236, 235, 229, 0.15);
+}
+
+.burger {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font-size: 26px;
+  cursor: pointer;
+  min-width: 46px;
+  min-height: 46px;
+  transition: transform 0.3s var(--ease);
+}
+.burger:active { transform: scale(0.9); }
+
+@media (max-width: 860px) {
+  .burger { display: block; }
+  .menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .menu a, .menu a.outline {
+    padding: 18px var(--pad);
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* HERO / FIRST PAGE - BACKGROUND & DRAGGABLE INTERACTION */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 64px var(--pad);
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  
+  /* Latar belakang menggunakan file yang diunggah ke GitHub */
+  background-image: 
+    radial-gradient(circle at center, rgba(20, 20, 18, 0.7) 0%, rgba(20, 20, 18, 0.95) 85%),
+    url("LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.jfif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover, contain;
+  transition: transform 0.1s ease-out;
+}
+
+.hero:active { cursor: grabbing; }
+
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background: var(--line);
+  opacity: 0.3;
+  pointer-events: none;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 6%;
+  top: 22%;
+  width: 34%;
+  height: 1px;
+  background: var(--line);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  pointer-events: auto;
+  transition: transform 0.2s var(--ease);
+}
+
+.hero h1 {
+  font: 800 clamp(40px, 8.4vw, 120px)/1 var(--sans);
+  letter-spacing: -.045em;
+  margin: 28px auto 0;
+}
+
+.hero p.sub {
+  margin: 28px auto 0;
+  max-width: 44ch;
+  color: var(--muted);
+}
+
+.hero .actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  min-height: 48px;
+  padding: 14px 28px;
+  border: 1px solid var(--text);
+  font: 600 12px var(--sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  color: var(--text);
+  transition: all 0.3s var(--ease);
+}
+.btn:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.btn.solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #141412;
+}
+.btn.solid:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+/* Scroll / Drag Indicator Button */
+.scroll-btn {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  z-index: 5;
+  background: rgba(29, 29, 26, 0.6);
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s var(--ease);
+  animation: bounce 2.2s infinite var(--ease);
+}
+
+.scroll-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* SECTIONS & INTERACTIVE LIST ROWS */
+section {
+  padding: clamp(56px, 9vw, 120px) 0;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: clamp(40px, 8vw, 96px) 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: clamp(28px, 4vw, 48px) 0;
+  border-top: 1px solid var(--line);
+  transition: all 0.3s var(--ease);
+}
+.row:last-of-type { border-bottom: 1px solid var(--line); }
+
+.row .n {
+  font: 400 clamp(22px, 3vw, 34px) var(--serif);
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.row b {
+  display: block;
+  font: 400 clamp(28px, 4.5vw, 56px)/1.1 var(--serif);
+  transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.row span.d {
+  color: var(--muted);
+  display: block;
+  margin-top: 6px;
+  max-width: 52ch;
+}
+.row .ar {
+  font-size: 28px;
+  transition: transform 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.row:hover {
+  padding-left: 20px;
+  padding-right: 20px;
+  background: var(--surface);
+  border-color: var(--accent);
+}
+.row:hover b { color: var(--accent); transform: translateX(8px); }
+.row:hover .n { color: var(--text); }
+.row:hover .ar { transform: translateX(10px); color: var(--accent); }
+
+.contactline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  color: var(--muted);
+}
+.contactline a {
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.contactline a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--bg);
+}
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+.wa-float {
+  position: fixed;
+  right: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  z-index: 90;
+  background: var(--accent);
+  color: #141412;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.wa-float:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(169, 192, 143, 0.4);
+}
+
+/* ANIMASI SCROLL REVEAL HALUS */
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap">
+    <nav aria-label="Navigasi utama">
+      <a class="logo" href="index.html">
+        <img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38">
+        <span>Sasaka Bale Property</span>
+      </a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
+      <div class="menu" id="menu">
+        <a href="listing.html">Listing Property</a>
+        <a href="titip.html">Titip Jual/Sewa</a>
+        <a href="about.html">About</a>
+        <a class="outline" href="about.html#kontak">Kontak</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- FIRST PAGE / HERO SECTION (Dapat ditarik/drag mouse & touch gesture) -->
+  <section class="hero" id="heroSection">
+    <div class="hero-content">
+      <p class="eyebrow reveal">Sasaka Bale Property</p>
+      <h1 class="reveal reveal-delay-1">Terpercaya untuk solusi properti Anda.</h1>
+      <p class="sub reveal reveal-delay-2">Sewa, kontrak, dan titip jual properti di Garut dan Bandung.</p>
+      <div class="actions reveal reveal-delay-3">
+        <a class="btn solid" href="listing.html">Lihat listing property</a>
+        <a class="btn" href="titip.html">Titip properti Anda</a>
+      </div>
+    </div>
+    <div class="scroll-btn" id="scrollBtn">Tarik / Scroll Ke Bawah ↓</div>
+  </section>
+
+  <!-- LIST MENU INTERAKTIF -->
+  <section id="menuSection">
+    <div class="wrap">
+      <a class="row reveal" href="listing.html">
+        <span class="n">01</span>
+        <span>
+          <b>Property yang sedang listing</b>
+          <span class="d">Rumah dan kontrakan yang sedang dipasarkan di Garut dan Bandung.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
+      <a class="row reveal reveal-delay-1" href="titip.html">
+        <span class="n">02</span>
+        <span>
+          <b>Titip memasarkan jual/sewa</b>
+          <span class="d">Titipkan properti Anda di Garut atau Bandung untuk kami pasarkan.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
+      <a class="row reveal reveal-delay-2" href="about.html">
+        <span class="n">03</span>
+        <span>
+          <b>About dan kontak pemasaran</b>
+          <span class="d">Profil Sasaka Bale Property, nomor WhatsApp, dan email pemasaran.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section>
+    <div class="wrap reveal">
+      <h2>Hubungi kami</h2>
+      <div class="contactline" style="margin-top: 20px;">
+        <span>WhatsApp: <a href="https://wa.me/6287730309578" target="_blank" rel="noopener">0877-3030-9578</a></span>
+        <span>Email: <a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sasaka Bale Property · Bandung &amp; Garut</span>
+    <a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
+
+<script>
+  // Navigasi Mobile Menu
+  var m = document.getElementById("menu"), b = document.getElementById("burger");
+  b.onclick = function() {
+    var open = m.classList.toggle("open");
+    b.setAttribute("aria-expanded", open);
+    b.textContent = open ? "✕" : "☰";
+  };
+  m.onclick = function() { 
+    m.classList.remove("open"); 
+    b.textContent = "☰";
+  };
+
+  // Scroll Reveal Animation
+  function revealOnScroll() {
+    var reveals = document.querySelectorAll(".reveal");
+    var windowHeight = window.innerHeight;
+    
+    reveals.forEach(function(el) {
+      var elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 80) {
+        el.classList.add("active");
+      }
+    });
+  }
+  window.addEventListener("scroll", revealOnScroll);
+  window.addEventListener("load", revealOnScroll);
+
+  // Scroll Button Click Handler
+  var scrollBtn = document.getElementById("scrollBtn");
+  var menuSection = document.getElementById("menuSection");
+  scrollBtn.addEventListener("click", function() {
+    menuSection.scrollIntoView({ behavior: "smooth" });
+  });
+
+  // DRAG / TOUCH SWIPE GESTURE UNTUK FIRST PAGE HERO
+  var hero = document.getElementById("heroSection");
+  var startY = 0;
+  var currentY = 0;
+  var isDragging = false;
+
+  // Touch Events (HP / Tablet)
+  hero.addEventListener("touchstart", function(e) {
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+
+  hero.addEventListener("touchmove", function(e) {
+    if (!isDragging) return;
+    currentY = e.touches[0].clientY;
+    var diffY = startY - currentY;
+    if (diffY > 50) { // Geser ke atas melebihi 50px
+      isDragging = false;
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }, { passive: true });
+
+  hero.addEventListener("touchend", function() {
+    isDragging = false;
+  });
+
+  // Mouse Drag Events (Laptop / PC)
+  hero.addEventListener("mousedown", function(e) {
+    startY = e.clientY;
+    isDragging = true;
+  });
+
+  window.addEventListener("mousemove", function(e) {
+    if (!isDragging) return;
+    currentY = e.clientY;
+    var diffY = startY - currentY;
+    if (diffY > 60) {
+      isDragging = false;
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
+  window.addEventListener("mouseup", function() {
+    isDragging = false;
+  });
+</script>
+</body>
+</html>
