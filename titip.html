@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Titip Jual/Sewa Properti | Sasaka Bale Property</title><meta name="description" content="Titipkan properti Anda di Bandung atau Garut untuk dijual atau disewakan lewat Sasaka Bale Property."><meta property="og:title" content="Titip Jual/Sewa Properti | Sasaka Bale Property"><meta property="og:description" content="Titipkan properti Anda di Bandung atau Garut untuk dijual atau disewakan lewat Sasaka Bale Property."><meta property="og:image" content="Tampak%20Depan%20Kanan%20HOOK.jpg">
+<link rel="icon" href="Logo%20Sasaka%20Bale%20Property.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div class="wrap"><nav aria-label="Navigasi utama">
+<a class="logo" href="index.html"><img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38"><span>Sasaka Bale Property</span></a>
+<button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
+<div class="menu" id="menu"><a href="listing.html">Listing Property</a>
+<a class="on" href="titip.html">Titip Jual/Sewa</a>
+<a href="about.html">About</a>
+<a class="outline" href="about.html#kontak">Kontak</a></div></nav></div></header>
+<main>
+<section class="page-head"><div class="wrap"><p class="eyebrow">Khusus Bandung dan Garut</p><h1 class="t" style="margin-top:16px">Titip memasarkan jual/sewa properti Anda</h1>
+<p class="lead">Punya rumah, kontrakan, tanah, atau bangunan lain di Bandung atau Garut? Titipkan ke kami untuk dijual atau disewakan.</p>
+<div class="cols"><div><strong>1. Isi data</strong>Lengkapi form di bawah: lokasi, jenis, dan harga yang diharapkan.</div><div><strong>2. Kirim lewat WhatsApp</strong>Pesan otomatis terbuka di WhatsApp, tinggal Anda kirim.</div><div><strong>3. Kami bantu pasarkan</strong>Properti dipasarkan ke calon pembeli atau penyewa. Ketentuan kerja sama dibicarakan langsung.</div></div></div></section>
+<section><div class="wrap"><h2>Form titip properti</h2>
+<form class="f" id="f">
+<label>Nama<input name="nama" required autocomplete="name"></label>
+<label>Lokasi properti<select name="lokasi" required><option value="">Pilih lokasi</option><option>Garut</option><option>Bandung</option></select></label>
+<label>Jenis properti<select name="jenis" required><option value="">Pilih jenis</option><option>Rumah</option><option>Kontrakan/Kost</option><option>Tanah</option><option>Ruko/Kios</option><option>Lainnya</option></select></label>
+<label>Tujuan<select name="tujuan" required><option value="">Pilih tujuan</option><option>Dijual</option><option>Disewakan</option></select></label>
+<label class="full">Harga yang diharapkan<input name="harga" placeholder="Contoh: Rp 500 juta / Rp 2 juta per bulan"></label>
+<label class="full">Keterangan<textarea name="ket" placeholder="Alamat singkat, luas, jumlah kamar, kondisi, dll."></textarea></label>
+<div class="full"><button class="btn solid" type="submit">Kirim via WhatsApp</button><p class="note">Layanan ini khusus properti di Bandung dan Garut. Atau kirim email ke <a href="mailto:sasakabaleacademy@gmail.com" style="border-bottom:1px solid var(--line)">sasakabaleacademy@gmail.com</a>.</p></div>
+</form></div></section></main>
+<footer><div class="wrap"><span>© 2026 Sasaka Bale Property · Bandung &amp; Garut</span><a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></div></footer>
+<a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
+<script>var m=document.getElementById("menu"),b=document.getElementById("burger");b.onclick=function(){b.setAttribute("aria-expanded",m.classList.toggle("open"))};m.onclick=function(){m.classList.remove("open")};</script><script>var f=document.getElementById("f");f.addEventListener("submit",function(e){e.preventDefault();var v=function(n){return f.elements[n].value.trim()};var t="Halo Sasaka Bale Property, saya ingin menitipkan properti ("+v("tujuan")+").\n\nNama: "+v("nama")+"\nLokasi: "+v("lokasi")+"\nJenis: "+v("jenis")+"\nHarga: "+(v("harga")||"-")+"\nKeterangan: "+(v("ket")||"-");window.open("https://wa.me/6287730309578?text="+encodeURIComponent(t),"_blank")});</script>
+</body></html>
