@@ -10,104 +10,601 @@
 <meta property="og:image" content="Tampak%20Depan%20Kanan%20HOOK.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" href="Logo%20Sasaka%20Bale%20Property.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="animasi.css">
+
+<style>
+:root {
+  --bg: #141412;
+  --surface: #1d1d1a;
+  --line: #33332e;
+  --text: #ecebe5;
+  --muted: #a09f96;
+  --accent: #a9c08f;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Manrope', system-ui, sans-serif;
+  --pad: clamp(16px, 4vw, 56px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 400 clamp(15px, 0.8vw + 11px, 18px)/1.7 var(--sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* PERBAIKAN WRAPPER FULL-WIDTH RESPONSIF */
+.wrap { 
+  width: 100%;
+  max-width: min(1600px, 95vw); 
+  padding: 0 var(--pad); 
+  margin: 0 auto; 
+}
+
+/* Page Transition Overlay */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease), opacity 0.3s ease;
+}
+.page-transition.active {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+/* Smart Sticky Header Navigation */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(20, 20, 18, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+  transition: transform 0.4s var(--ease), background-color 0.4s var(--ease);
+}
+header.hide-nav {
+  transform: translateY(-100%);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 13px var(--sans);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+.logo:hover { transform: scale(1.03); opacity: 0.92; }
+.logo img { width: 38px; height: 38px; border-radius: 9px; }
+
+.menu { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
+.menu a {
+  position: relative;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+  padding: 4px 0;
+}
+.menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transition: width 0.35s var(--ease);
+}
+.menu a:hover::after, .menu a.on::after { width: 100%; }
+.menu a:hover, .menu a.on { color: var(--text); }
+
+.menu a.outline {
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 10px 20px;
+  transition: all 0.35s var(--ease);
+}
+.menu a.outline::after { display: none; }
+.menu a.outline:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(236, 235, 229, 0.15);
+}
+
+.burger {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font-size: 26px;
+  cursor: pointer;
+  min-width: 46px;
+  min-height: 46px;
+  transition: transform 0.3s var(--ease);
+}
+.burger:active { transform: scale(0.9); }
+
+@media (max-width: 860px) {
+  .burger { display: block; }
+  .menu {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+  .menu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .menu a, .menu a.outline {
+    padding: 18px var(--pad);
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* HERO / FIRST PAGE RESPONSIF FULL LAYAR */
+.hero {
+  position: relative;
+  min-height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(48px, 6vw, 96px) var(--pad);
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  background-image: 
+    radial-gradient(circle at center, rgba(20, 20, 18, 0.6) 0%, rgba(20, 20, 18, 0.95) 85%),
+    url("LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover, contain;
+}
+.hero:active { cursor: grabbing; }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  pointer-events: auto;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font: 800 clamp(36px, 7vw, 110px)/1 var(--sans);
+  letter-spacing: -.045em;
+  margin: 20px auto 0;
+  max-width: 18ch;
+}
+
+.hero p.sub {
+  margin: 24px auto 0;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: clamp(16px, 1.4vw, 22px);
+}
+
+.hero .actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 14px 28px;
+  border: 1px solid var(--text);
+  font: 600 12px var(--sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.35s var(--ease);
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--text);
+  z-index: -1;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease);
+}
+.btn:hover::before { transform: translateY(0); }
+.btn:hover {
+  color: var(--bg);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.4);
+}
+.btn.solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #141412;
+}
+.btn.solid::before { background: var(--text); }
+.btn.solid:hover { border-color: var(--text); color: var(--bg); }
+
+/* Scroll Button */
+.scroll-btn {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  z-index: 5;
+  background: rgba(29, 29, 26, 0.7);
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s var(--ease);
+  animation: bounce 2.2s infinite var(--ease);
+}
+.scroll-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* SECTIONS & LIST ROWS */
+section {
+  padding: clamp(48px, 8vw, 110px) 0;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  position: relative;
+  z-index: 10;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: clamp(40px, 6vw, 80px) 1fr auto;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: center;
+  padding: clamp(24px, 3.5vw, 44px) 0;
+  border-top: 1px solid var(--line);
+  transition: all 0.35s var(--ease);
+}
+.row:last-of-type { border-bottom: 1px solid var(--line); }
+
+.row .n {
+  font: 400 clamp(20px, 2.5vw, 32px) var(--serif);
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.row b {
+  display: block;
+  font: 400 clamp(24px, 3.8vw, 52px)/1.1 var(--serif);
+  transition: color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.row span.d {
+  color: var(--muted);
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(14px, 1.1vw, 17px);
+}
+.row .ar {
+  font-size: 28px;
+  transition: transform 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.row:hover {
+  padding-left: clamp(12px, 2vw, 24px);
+  padding-right: clamp(12px, 2vw, 24px);
+  background: var(--surface);
+  border-color: var(--accent);
+}
+.row:hover b { color: var(--accent); transform: translateX(8px); }
+.row:hover .n { color: var(--text); }
+.row:hover .ar { transform: translateX(10px); color: var(--accent); }
+
+/* GALERI PREVIEW GRID AUTO-FIT */
+.gal-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+  margin-top: 32px;
+}
+.gal-preview-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.gal-preview-item img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.gal-preview-item:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+}
+.gal-preview-item:hover img { transform: scale(1.05); }
+.gal-preview-item .cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(20,20,18,0.95), transparent);
+  font-size: 13px;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.gal-preview-item:hover .cap { opacity: 1; transform: translateY(0); }
+
+/* Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 8, 0.94);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+  padding: 24px;
+}
+.lightbox.active { opacity: 1; pointer-events: auto; }
+.lightbox-img-wrapper {
+  position: relative;
+  max-width: 92vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.92);
+  transition: transform 0.4s var(--ease-bounce);
+}
+.lightbox.active .lightbox-img-wrapper { transform: scale(1); }
+.lightbox img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.lightbox-caption { margin-top: 16px; color: var(--text); font-size: 14px; text-align: center; }
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--line);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--ease);
+}
+.lightbox-close:hover { background: var(--accent); color: var(--bg); transform: rotate(90deg); }
+
+.contactline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  color: var(--muted);
+}
+.contactline a {
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.contactline a:hover { color: var(--accent); border-color: var(--accent); }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--bg);
+}
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+.wa-float {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  z-index: 90;
+  background: var(--accent);
+  color: #141412;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.wa-float:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(169, 192, 143, 0.4);
+}
+
+/* SCROLL REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+</style>
 </head>
 <body>
 
-<header>
+<!-- PAGE TRANSITION OVERLAY -->
+<div class="page-transition" id="pageTransition"></div>
+
+<!-- STICKY HEADER NAV -->
+<header id="header">
   <div class="wrap">
     <nav aria-label="Navigasi utama">
-      <a class="logo" href="index.html"><img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38"><span>Sasaka Bale Property</span></a>
+      <a class="logo transition-link" href="index.html">
+        <img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38">
+        <span>Sasaka Bale Property</span>
+      </a>
       <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
       <div class="menu" id="menu">
-        <a href="listing.html">Listing Property</a>
-        <a href="titip.html">Titip Jual/Sewa</a>
-        <a href="about.html">About</a>
-        <a class="outline" href="about.html#kontak">Kontak</a>
+        <a class="transition-link" href="listing.html">Listing Property</a>
+        <a class="transition-link" href="titip.html">Titip Jual/Sewa</a>
+        <a class="transition-link" href="about.html">About</a>
+        <a class="outline transition-link" href="about.html#kontak">Kontak</a>
       </div>
     </nav>
   </div>
 </header>
 
 <main>
-  <!-- 1. COVER: logo hitam sebagai background -->
-  <section class="home-hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-content">
-      <p class="eyebrow" data-reveal style="--d:0ms">Sasaka Bale Property</p>
-      <h1 data-split aria-label="Terpercaya untuk solusi properti Anda.">Terpercaya untuk solusi properti Anda.</h1>
-      <p class="sub" data-reveal style="--d:700ms">Sewa, kontrak, dan titip jual properti di Garut dan Bandung.</p>
-      <div class="actions" data-reveal style="--d:850ms">
-        <a class="btn solid" href="listing.html">Lihat listing property</a>
-        <a class="btn" href="titip.html">Titip properti Anda</a>
+  <!-- FIRST PAGE / HERO SECTION -->
+  <section class="hero" id="heroSection">
+    <div class="hero-content" id="heroContent">
+      <p class="eyebrow reveal">Sasaka Bale Property</p>
+      <h1 class="reveal reveal-delay-1">Terpercaya untuk solusi properti Anda.</h1>
+      <p class="sub reveal reveal-delay-2">Sewa, kontrak, dan titip jual properti di Garut dan Bandung.</p>
+      <div class="actions reveal reveal-delay-3">
+        <a class="btn solid transition-link" href="listing.html">Lihat listing property</a>
+        <a class="btn transition-link" href="titip.html">Titip properti Anda</a>
       </div>
     </div>
-    <a class="scroll-cue" href="#cerita" aria-label="Gulir ke bawah"><span>Scroll</span><i></i></a>
+    <div class="scroll-btn" id="scrollBtn">Scroll ↓</div>
   </section>
 
-  <!-- 2. PITA BERGERAK -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track"><span>Sewa</span><span>Kontrak</span><span>Titip Jual</span><span>Garut</span><span>Bandung</span></div>
-  </div>
-
-  <!-- 3. PERNYATAAN: menyala mengikuti scroll -->
-  <section class="statement" id="cerita">
+  <!-- LIST MENU INTERAKTIF -->
+  <section id="menuSection">
     <div class="wrap">
-      <p data-scrub>Kami membantu Anda menemukan hunian yang tepat dan menitipkan properti dengan informasi yang jelas, harga yang terbuka, serta komunikasi langsung lewat WhatsApp.</p>
+      <a class="row reveal transition-link" href="listing.html">
+        <span class="n">01</span>
+        <span>
+          <b>Property yang sedang listing</b>
+          <span class="d">Rumah dan kontrakan yang sedang dipasarkan di Garut dan Bandung.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
+      <a class="row reveal reveal-delay-1 transition-link" href="titip.html">
+        <span class="n">02</span>
+        <span>
+          <b>Titip memasarkan jual/sewa</b>
+          <span class="d">Titipkan properti Anda di Garut atau Bandung untuk kami pasarkan.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
+      <a class="row reveal reveal-delay-2 transition-link" href="about.html">
+        <span class="n">03</span>
+        <span>
+          <b>About dan kontak pemasaran</b>
+          <span class="d">Profil Sasaka Bale Property, nomor WhatsApp, dan email pemasaran.</span>
+        </span>
+        <span class="ar">→</span>
+      </a>
     </div>
   </section>
 
-  <!-- 4. ANGKA -->
+  <!-- PRATINJAU GALERI PROPERTI INTERAKTIF -->
   <section>
-    <div class="wrap">
-      <div class="stats">
-        <div class="stat" data-reveal><b data-count="2">0</b><span>Kota layanan: Garut dan Bandung</span></div>
-        <div class="stat" data-reveal><b data-count="1">0</b><span>Listing aktif saat ini</span></div>
-        <div class="stat" data-reveal><b data-count="3">0</b><span>Pilihan durasi kontrak: bulanan, 6 bulan, dan tahunan</span></div>
-        <div class="stat" data-reveal><b data-count="1.7" data-dec="1" data-suf=" jt">0</b><span>Harga kontrakan mulai (Rp) per bulan</span></div>
+    <div class="wrap reveal">
+      <h2>Pratinjau Properti Unggulan</h2>
+      <p style="color: var(--muted); margin-top: 6px;">Klik foto di bawah untuk membuka galeri foto interaktif.</p>
+      <div class="gal-preview">
+        <div class="gal-preview-item" data-lightbox-src="Tampak%20Depan%20Kanan%20HOOK.jpg" data-caption="Kontrakan Pak Aldy Pemda Garut - Tampak Depan">
+          <img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak Depan Rumah" loading="lazy">
+          <div class="cap">Tampak Depan Hook (Garut)</div>
+        </div>
+        <div class="gal-preview-item" data-lightbox-src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" data-caption="Ruang Keluarga Nyaman">
+          <img src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" alt="Ruang Keluarga" loading="lazy">
+          <div class="cap">Ruang Keluarga</div>
+        </div>
+        <div class="gal-preview-item" data-lightbox-src="Kamar%20Tidur.jpg" data-caption="Kamar Tidur Utama">
+          <img src="Kamar%20Tidur.jpg" alt="Kamar Tidur Utama" loading="lazy">
+          <div class="cap">Kamar Tidur Utama</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. MENU UTAMA -->
-  <section id="menu-utama">
-    <div class="wrap">
-      <a class="row" href="listing.html" data-reveal="left"><span class="n">01</span><span><b>Property yang sedang listing</b><span class="d">Rumah dan kontrakan yang sedang dipasarkan di Garut dan Bandung.</span></span><span class="ar">→</span></a>
-      <a class="row" href="titip.html" data-reveal="left"><span class="n">02</span><span><b>Titip memasarkan jual/sewa</b><span class="d">Titipkan properti Anda di Garut atau Bandung untuk kami pasarkan.</span></span><span class="ar">→</span></a>
-      <a class="row" href="about.html" data-reveal="left"><span class="n">03</span><span><b>About dan kontak pemasaran</b><span class="d">Profil Sasaka Bale Property, nomor WhatsApp, dan email pemasaran.</span></span><span class="ar">→</span></a>
-    </div>
-  </section>
-
-  <!-- 6. PRATINJAU PROPERTI (geser / klik untuk memperbesar) -->
+  <!-- KONTAK -->
   <section>
-    <div class="wrap">
-      <h2>Pratinjau properti unggulan</h2>
-      <p class="hint">Kontrakan Pak Aldy Pemda Garut Kota. Geser ke samping, klik foto untuk memperbesar.</p>
-      <div class="rail">
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="Tampak%20Depan%20Kanan%20HOOK.jpg" data-caption="Tampak depan rumah"><img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak depan rumah" loading="lazy"><figcaption class="cap">Tampak depan</figcaption></figure>
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" data-caption="Ruang keluarga, bisa jadi kamar tambahan"><img src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" alt="Ruang keluarga" loading="lazy"><figcaption class="cap">Ruang keluarga</figcaption></figure>
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="Kamar%20Tidur.jpg" data-caption="Kamar tidur utama"><img src="Kamar%20Tidur.jpg" alt="Kamar tidur utama" loading="lazy"><figcaption class="cap">Kamar tidur utama</figcaption></figure>
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="Dapur%20Tangga%20wc.jpg" data-caption="Dapur dan tangga"><img src="Dapur%20Tangga%20wc.jpg" alt="Dapur dan tangga" loading="lazy"><figcaption class="cap">Dapur dan tangga</figcaption></figure>
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="Gudang%20Kecil%20dan%20tempat%20jemuran.jpg" data-caption="Gudang kecil dan tempat jemuran"><img src="Gudang%20Kecil%20dan%20tempat%20jemuran.jpg" alt="Gudang kecil dan tempat jemuran" loading="lazy"><figcaption class="cap">Gudang dan tempat jemuran</figcaption></figure>
-        <figure class="shot" data-reveal="zoom" data-lightbox-src="pemandangan.jpg" data-caption="Pemandangan dari lantai 2"><img src="pemandangan.jpg" alt="Pemandangan dari lantai 2" loading="lazy"><figcaption class="cap">Pemandangan lantai 2</figcaption></figure>
-      </div>
-      <div class="actions"><a class="btn" href="kontrakan-pak-aldy.html">Lihat detail kontrakan</a></div>
-    </div>
-  </section>
-
-  <!-- 7. AJAKAN -->
-  <section class="cta">
-    <div class="wrap">
-      <h2 data-split>Punya properti atau sedang mencari hunian?</h2>
-      <div class="actions" data-reveal>
-        <a class="btn solid" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener">Chat WhatsApp</a>
-        <a class="btn" href="titip.html">Titip properti</a>
-      </div>
-      <div class="contactline" data-reveal>
+    <div class="wrap reveal">
+      <h2>Hubungi kami</h2>
+      <div class="contactline" style="margin-top: 20px;">
         <span>WhatsApp: <a href="https://wa.me/6287730309578" target="_blank" rel="noopener">(+62) 877-3030-9578</a></span>
         <span>Email: <a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></span>
       </div>
@@ -123,6 +620,150 @@
 </footer>
 
 <a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
-<script src="animasi.js" defer></script>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox" id="lightboxModal">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">✕</button>
+  <div class="lightbox-img-wrapper">
+    <img src="" id="lightboxImg" alt="Foto Properti">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<script>
+  // 1. MOBILE BURGER MENU TOGGLE
+  var m = document.getElementById("menu"), b = document.getElementById("burger");
+  if(b) {
+    b.onclick = function() {
+      var open = m.classList.toggle("open");
+      b.setAttribute("aria-expanded", open);
+      b.textContent = open ? "✕" : "☰";
+    };
+    m.onclick = function() { 
+      m.classList.remove("open"); 
+      b.textContent = "☰";
+    };
+  }
+
+  // 2. SMART STICKY HEADER AUTO-HIDE ON SCROLL
+  var header = document.getElementById("header");
+  var lastScrollY = window.scrollY;
+  window.addEventListener("scroll", function() {
+    var currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      header.classList.add("hide-nav");
+    } else {
+      header.classList.remove("hide-nav");
+    }
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+
+  // 3. SCROLL REVEAL & PARALLAX EFFECT
+  function revealOnScroll() {
+    var reveals = document.querySelectorAll(".reveal");
+    var windowHeight = window.innerHeight;
+    
+    reveals.forEach(function(el) {
+      var elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 80) {
+        el.classList.add("active");
+      }
+    });
+
+    var heroContent = document.getElementById("heroContent");
+    if (heroContent) {
+      var sc = window.scrollY;
+      heroContent.style.transform = "translateY(" + (sc * 0.25) + "px)";
+      heroContent.style.opacity = Math.max(0, 1 - (sc / 600));
+    }
+  }
+  window.addEventListener("scroll", revealOnScroll, { passive: true });
+  window.addEventListener("load", revealOnScroll);
+
+  // 4. SCROLL BUTTON HANDLER
+  var scrollBtn = document.getElementById("scrollBtn");
+  var menuSection = document.getElementById("menuSection");
+  if(scrollBtn && menuSection) {
+    scrollBtn.addEventListener("click", function() {
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // 5. DRAG & TOUCH SWIPE GESTURE UNTUK HERO
+  var hero = document.getElementById("heroSection");
+  var startY = 0, isDragging = false;
+
+  hero.addEventListener("touchstart", function(e) {
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+
+  hero.addEventListener("touchmove", function(e) {
+    if (!isDragging) return;
+    var diffY = startY - e.touches[0].clientY;
+    if (diffY > 50) {
+      isDragging = false;
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }, { passive: true });
+
+  hero.addEventListener("touchend", function() { isDragging = false; });
+
+  hero.addEventListener("mousedown", function(e) {
+    startY = e.clientY;
+    isDragging = true;
+  });
+
+  window.addEventListener("mousemove", function(e) {
+    if (!isDragging) return;
+    if (startY - e.clientY > 60) {
+      isDragging = false;
+      menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+
+  window.addEventListener("mouseup", function() { isDragging = false; });
+
+  // 6. INTERACTIVE LIGHTBOX MODAL
+  var lightbox = document.getElementById("lightboxModal");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxCaption = document.getElementById("lightboxCaption");
+  var lightboxClose = document.getElementById("lightboxClose");
+
+  document.querySelectorAll("[data-lightbox-src]").forEach(function(item) {
+    item.addEventListener("click", function() {
+      var src = item.getAttribute("data-lightbox-src");
+      var cap = item.getAttribute("data-caption") || "";
+      lightboxImg.src = src;
+      lightboxCaption.textContent = cap;
+      lightbox.classList.add("active");
+    });
+  });
+
+  function closeLightbox() { lightbox.classList.remove("active"); }
+
+  if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+
+  // 7. PAGE TRANSITION OVERLAY
+  var pageTransition = document.getElementById("pageTransition");
+  document.querySelectorAll(".transition-link").forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      var href = link.getAttribute("href");
+      if (href && !href.startsWith("#") && !href.startsWith("https://wa.me") && !href.startsWith("mailto:")) {
+        e.preventDefault();
+        pageTransition.classList.add("active");
+        setTimeout(function() {
+          window.location.href = href;
+        }, 450);
+      }
+    });
+  });
+</script>
 </body>
 </html>
