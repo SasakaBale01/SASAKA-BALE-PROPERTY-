@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kontrakan Rumah di Garut | Sasaka Bale Property</title>
+<meta name="description" content="Dikontrakkan 1 unit rumah dua lantai di Perum Citrajaya Sentosa, Tarogong Kidul, Garut. Mulai Rp 1,7 juta per bulan. Listrik token 1300 VA, air PDAM.">
+<meta property="og:title" content="Dikontrakkan: Rumah di Pusat Kota Garut">
+<meta property="og:description" content="Rumah 2 lantai, Perum Citrajaya Sentosa, Tarogong Kidul. Mulai Rp 1,7 juta/bulan.">
+<meta property="og:image" content="Tampak%20Depan%20Kanan%20HOOK.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#141412; --surface:#1d1d1a; --line:#33332e; --text:#ecebe5; --muted:#a09f96; --accent:#a9c08f;
+  --serif:'Instrument Serif',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
+  --pad:clamp(20px,5vw,72px);
+  --safe-l:env(safe-area-inset-left,0px); --safe-r:env(safe-area-inset-right,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--bg);color:var(--text);font:400 clamp(15px,.9vw + 11px,18px)/1.7 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+img{display:block;max-width:100%}
+.wrap{padding:0 var(--pad);padding-left:max(var(--pad),var(--safe-l));padding-right:max(var(--pad),var(--safe-r));max-width:min(1440px,100%);margin:0 auto}
+
+/* Nav */
+header{position:sticky;top:0;z-index:20;background:rgba(20,20,18,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:400 22px var(--serif);letter-spacing:.02em}
+.menu{display:flex;gap:32px;font-size:14px;color:var(--muted)}
+.menu a:hover{color:var(--text)}
+.burger{display:none;background:none;border:0;color:var(--text);font-size:26px;cursor:pointer;min-width:46px;min-height:46px}
+@media(max-width:760px){
+  .burger{display:block}
+  .menu{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line)}
+  .menu.open{display:flex}
+  .menu a{padding:16px var(--pad);border-top:1px solid var(--line);font-size:16px}
+}
+
+/* Hero */
+.hero{padding:clamp(48px,9vw,120px) 0 48px}
+.hero small{display:block;color:var(--accent);font-size:14px;margin-bottom:20px}
+h1{font:400 clamp(40px,8vw,128px)/1 var(--serif);letter-spacing:-.02em;max-width:12ch}
+.hero p{margin-top:28px;max-width:46ch;color:var(--muted);font-size:18px}
+.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.btn{display:inline-block;min-height:46px;padding:13px 26px;text-align:center;border:1px solid var(--text);font-weight:600;font-size:14px;transition:background .2s,color .2s}
+.btn:hover{background:var(--text);color:var(--bg)}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#141412}
+.btn.solid:hover{background:var(--text);border-color:var(--text)}
+.cover{margin-top:56px}
+.cover img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:4px}
+@media(max-width:600px){.cover img{aspect-ratio:4/3}}
+.cover figcaption{margin-top:12px;font-size:13px;color:var(--muted)}
+
+/* Sections */
+section{padding:clamp(64px,10vw,130px) 0;border-top:1px solid var(--line)}
+h2{font:400 clamp(34px,5vw,64px)/1.05 var(--serif);letter-spacing:-.01em;margin-bottom:12px}
+.lead{color:var(--muted);max-width:52ch;margin-bottom:56px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:clamp(28px,4vw,56px)}
+h3{font:600 15px var(--sans);margin-bottom:14px;color:var(--accent)}
+ul.clean{list-style:none}
+ul.clean li{padding:11px 0;border-bottom:1px solid var(--line)}
+ul.clean li span{display:block;font-size:13px;color:var(--muted)}
+
+/* Harga */
+.prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.price{padding:clamp(28px,4vw,44px) clamp(20px,3vw,32px);background:var(--bg)}
+.price .dur{color:var(--muted);font-size:14px}
+.price .num{font:400 clamp(40px,5vw,64px)/1.1 var(--serif);margin:8px 0 4px}
+.price .num small{font:500 16px var(--sans);color:var(--muted)}
+.price.best{background:var(--surface)}
+.price .tag{display:inline-block;margin-top:10px;font-size:12px;color:var(--accent)}
+.note{margin-top:16px;font-size:14px;color:var(--muted)}
+
+/* Galeri */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gal figure:first-child{grid-column:1/-1}
+.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;cursor:zoom-in;background:var(--surface)}
+.gal figure:first-child img{aspect-ratio:16/9}
+.gal figcaption{font-size:.82em;color:var(--muted);margin-top:8px}
+@media(max-width:560px){.gal{grid-template-columns:repeat(2,1fr);gap:10px}.gal figure:first-child img{aspect-ratio:4/3}}
+.flyer{margin-top:72px;display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:40px;align-items:start}
+.flyer img{width:100%;height:auto;border-radius:4px;cursor:zoom-in}
+.flyer p{color:var(--muted);max-width:40ch}
+@media(max-width:820px){.flyer{grid-template-columns:minmax(0,420px);gap:20px}}
+
+/* Lokasi */
+.addr{font:400 clamp(22px,3vw,32px)/1.3 var(--serif);margin-bottom:28px}
+.map{width:100%;height:clamp(280px,42vw,560px);border:0;border-radius:4px;filter:grayscale(.55) contrast(.95)}
+
+/* Kontak */
+.contact h2{max-width:14ch}
+footer{border-top:1px solid var(--line);padding:32px 0;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.wa-float{position:fixed;right:max(18px,var(--safe-r));bottom:max(18px,env(safe-area-inset-bottom,0px));z-index:30;background:var(--accent);color:#141412;font-weight:600;font-size:14px;padding:13px 20px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;cursor:zoom-out}
+.lb.open{display:flex}
+.lb img{max-height:94vh;max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:2px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav aria-label="Navigasi utama">
+      <a class="logo" href="#top">Sasaka Bale</a>
+      <button class="burger" aria-label="Buka menu" aria-expanded="false" id="burger">☰</button>
+      <div class="menu" id="menu">
+        <a href="#rumah">Rumah</a>
+        <a href="#galeri">Foto</a>
+        <a href="#harga">Harga</a>
+        <a href="#lokasi">Lokasi</a>
+        <a href="#kontak">Kontak</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="wrap hero">
+    <small>Sasaka Bale Property·</small>
+    <h1>Di Sewakan hunian nyaman di pusat kota Garut!</h1>
+    <p>Satu unit rumah dua lantai di Perum Citrajaya Sentosa, Tarogong Kidul. Siap huni, dengan area jemur luas dan pemandangan hamparan hijau dari lantai atas.</p>
+    <div class="actions">
+      <a class="btn solid" id="wa1" href="#">Hubungi via WhatsApp</a>
+      <a class="btn" href="#harga">Lihat harga</a>
+    </div>
+    <figure class="cover">
+      <img src="Tampak%20Depan%20Kanan%20HOOK.jpg" alt="Tampak depan rumah dua lantai yang dikontrakkan di Perum Citrajaya Sentosa, Garut">
+      <figcaption>Tampak depan rumah dengan teras.</figcaption>
+    </figure>
+  </div>
+
+  <!-- DETAIL -->
+  <section id="rumah">
+    <div class="wrap">
+      <h2>Detail rumah</h2>
+      <p class="lead">Rumah dua lantai dengan ruang yang fleksibel untuk keluarga kecil, pasangan, atau usaha rumahan.</p>
+      <div class="cols">
+        <div>
+          <h3>Lantai 1</h3>
+          <ul class="clean">
+            <li>1 kamar tidur utama</li>
+            <li>1 ruang keluarga<span>Bisa dijadikan kamar tambahan</span></li>
+            <li>1 ruang tamu</li>
+            <li>1 ruang dapur</li>
+            <li>1 kamar mandi</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Lantai 2</h3>
+          <ul class="clean">
+            <li>Ruangan kecil untuk gudang</li>
+            <li>Area jemuran yang luas</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Fasilitas</h3>
+          <ul class="clean">
+            <li>Listrik token 1300 VA</li>
+            <li>Air PDAM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARGA -->
+  <section id="harga">
+    <div class="wrap">
+      <h2>Harga kontrak</h2>
+      <p class="lead">Pilih durasi yang sesuai. Semakin lama kontrak, semakin hemat per bulannya.</p>
+      <div class="prices">
+        <div class="price">
+          <div class="dur">Per bulan</div>
+          <div class="num">Rp 1,7 jt</div>
+        </div>
+        <div class="price">
+          <div class="dur">6 bulan</div>
+          <div class="num">Rp 6,9 jt</div>
+          <span class="tag">Setara Rp 1,15 jt per bulan</span>
+        </div>
+        <div class="price best">
+          <div class="dur">1 tahun</div>
+          <div class="num">Rp 13,5 jt</div>
+          <span class="tag">Setara Rp 1,125 jt per bulan</span>
+        </div>
+      </div>
+      <p class="note">Hubungi kami untuk menanyakan ketersediaan dan Harga spesial.</p>
+    </div>
+  </section>
+
+  <!-- GALERI -->
+  <section id="galeri">
+    <div class="wrap">
+      <h2>Foto rumah</h2>
+      <p class="lead">Klik foto untuk memperbesar.</p>
+      <div class="gal">
+        <figure><img src="Tampak%20Depan%20kiri%20POV%20GMAPS.jpg" alt="Tampak depan rumah dari sisi kiri" loading="lazy" data-zoom><figcaption>Tampak depan dari sisi kiri</figcaption></figure>
+        <figure><img src="Ruang%20Keluarga%20%2Bbisa%20jadi%20kamar%20tambahan.jpg" alt="Ruang keluarga yang bisa dijadikan kamar tambahan" loading="lazy" data-zoom><figcaption>Ruang keluarga, bisa jadi kamar tambahan</figcaption></figure>
+        <figure><img src="Kamar%20Tidur.jpg" alt="Kamar tidur utama" loading="lazy" data-zoom><figcaption>Kamar tidur utama</figcaption></figure>
+        <figure><img src="Dapur%20Tangga%20wc.jpg" alt="Dapur dan tangga menuju lantai 2" loading="lazy" data-zoom><figcaption>Dapur dan tangga</figcaption></figure>
+        <figure><img src="WC.jpg" alt="Kamar mandi" loading="lazy" data-zoom><figcaption>Kamar mandi</figcaption></figure>
+        <figure><img src="Gudang%20Kecil%20dan%20tempat%20jemuran.jpg" alt="Gudang kecil dan tempat jemuran di lantai 2" loading="lazy" data-zoom><figcaption>Gudang kecil dan tempat jemuran</figcaption></figure>
+        <figure><img src="pemandangan.jpg" alt="Pemandangan hamparan hijau dari lantai 2" loading="lazy" data-zoom><figcaption>Pemandangan dari lantai 2</figcaption></figure>
+      </div>
+      <div class="flyer">
+        <img src="flyer.jpg" alt="Flyer lengkap: dikontrakkan 1 unit rumah, detail ruangan, harga, dan lokasi" loading="lazy" data-zoom>
+        <p>Flyer lengkap berisi detail ruangan, harga, dan lokasi. Klik untuk memperbesar atau simpan ke HP Anda.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOKASI -->
+  <section id="lokasi">
+    <div class="wrap">
+      <h2>Lokasi</h2>
+      <p class="addr">Perum Citrajaya Sentosa, Gordah, Tarogong Kidul, Garut</p>
+      <iframe class="map" title="Peta lokasi Perum Citrajaya Sentosa, Tarogong Kidul, Garut"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.2519055793186!2d107.89143209999999!3d-7.212078599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b1501538074f%3A0xf2f7f56e8937a6ff!2sKontrakan%20Pak%20Aldy%20Pemda%20Garut%20Kota!5e0!3m2!1sid!2sid!4v1792664381777!5m2!1sid!2sid"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="actions">
+        <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-7.2120786,107.8914321">Buka di Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak" class="contact">
+    <div class="wrap">
+      <h2>Tertarik dengan rumah ini?</h2>
+      <p class="lead">Kirim pesan lewat WhatsApp untuk jadwal survei dan informasi lebih lanjut. Nomor ini hanya melayani WhatsApp.</p>
+      <div class="actions">
+        <a class="btn solid" id="wa2" href="#">Chat WhatsApp: 0877-3030-9578</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sasaka Bale Property</span>
+    <span>Rumah dikontrakkan di Garut</span>
+  </div>
+</footer>
+
+<a class="wa-float" id="wa3" href="#" aria-label="Chat WhatsApp">WhatsApp</a>
+<div class="lb" id="lb" role="dialog" aria-label="Gambar diperbesar"><img alt="" id="lbimg"></div>
+
+<script>
+  // === EDIT DI SINI ===
+  var NOMOR_WA = "6287730309578";
+  var PESAN = "Halo Sasaka Bale Property, saya tertarik mengontrak rumah di Perum Citrajaya Sentosa, Garut. Apakah masih tersedia?";
+  // ====================
+  var link = "https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(PESAN);
+  ["wa1","wa2","wa3"].forEach(function(id){
+    var a = document.getElementById(id); a.href = link; a.target = "_blank"; a.rel = "noopener";
+  });
+
+  var menu = document.getElementById("menu"), burger = document.getElementById("burger");
+  burger.addEventListener("click", function(){
+    var open = menu.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open);
+  });
+  menu.addEventListener("click", function(){ menu.classList.remove("open"); });
+
+  var lb = document.getElementById("lb"), lbimg = document.getElementById("lbimg");
+  document.querySelectorAll("[data-zoom]").forEach(function(img){
+    img.addEventListener("click", function(){ lbimg.src = img.src; lbimg.alt = img.alt; lb.classList.add("open"); });
+  });
+  lb.addEventListener("click", function(){ lb.classList.remove("open"); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") lb.classList.remove("open"); });
+</script>
+</body>
+</html>
