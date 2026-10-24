@@ -46,7 +46,7 @@ h1.t{font:400 clamp(40px,7vw,96px)/1 var(--serif);letter-spacing:-.02em}
 /* ===== Beranda ===== */
 .home-hero{min-height:calc(100svh - var(--nav));display:grid;place-items:center;text-align:center;padding:clamp(48px,6vw,96px) var(--pad) 120px;overflow:hidden;border:0;background:#0a0a09;isolation:isolate}
 .hero-bg{position:absolute;inset:-5%;z-index:-2;will-change:transform}
-.hero-bg::before{content:"";position:absolute;inset:0;background:url("LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.png") center/contain no-repeat}
+.hero-bg::before{content:"";position:absolute;inset:0;background:url("media/logo%20sbp/LOGO%20HITAM%20BACKGROUND%20FIRST%20PAGE.png") center/contain no-repeat}
 .home-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at center,rgba(10,10,9,.45) 0%,rgba(10,10,9,.93) 85%),linear-gradient(to bottom,transparent 70%,var(--bg))}
 .hero-content{max-width:1100px;margin:0 auto;will-change:transform}
 .home-hero h1{font:800 clamp(36px,7vw,110px)/1 var(--sans);letter-spacing:-.045em;margin:22px auto 0;max-width:18ch;text-shadow:0 4px 40px rgba(0,0,0,.6)}
@@ -102,7 +102,7 @@ h1.t{font:400 clamp(40px,7vw,96px)/1 var(--serif);letter-spacing:-.02em}
 .empty a{color:var(--accent);border-bottom:1px solid var(--accent)}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);align-items:center}
 .grid2 p{max-width:56ch;color:var(--muted)}.grid2 p+p{margin-top:16px}
-.banner{width:100%;aspect-ratio:588/263;border-radius:4px;background:url("Banner%20Logo%20Sasaka%20Bale%20Property.png") 93% 49.9%/163.3% auto no-repeat}
+.banner{width:100%;aspect-ratio:588/263;border-radius:4px;background:url("media/logo%20sbp/Banner%20Logo%20Sasaka%20Bale%20Property.png") 93% 49.9%/163.3% auto no-repeat}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:36px;margin-top:40px}
 .cols div{padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.95em}.cols strong{display:block;margin-bottom:4px;color:var(--text)}
 .kontak-list{max-width:640px;margin-top:28px;list-style:none}
