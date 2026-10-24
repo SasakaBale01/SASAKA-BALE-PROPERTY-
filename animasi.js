@@ -15,7 +15,7 @@
     try { if (sessionStorage.getItem("sb-intro")) return; sessionStorage.setItem("sb-intro", "1"); } catch (e) { return; }
     var l = d.createElement("div");
     l.className = "loader";
-    l.innerHTML = '<img src="Logo%20Sasaka%20Bale%20Property.jpg" alt=""><span></span>';
+    l.innerHTML = '<img src="media/logo%20sbp/Logo%20Sasaka%20Bale%20Property.jpg" alt=""><span></span>';
     d.body.appendChild(l); d.body.style.overflow = "hidden"; heroWait = 1500;
     setTimeout(function () { l.classList.add("done"); d.body.style.overflow = ""; }, 1350);
     setTimeout(function () { l.remove(); }, 2400);
@@ -136,7 +136,7 @@
   }
 
   /* 9. Transisi antarhalaman (tirai) */
-  var cur = d.createElement("div"); cur.className = "curtain"; cur.innerHTML = '<img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="">'; d.body.appendChild(cur);
+  var cur = d.createElement("div"); cur.className = "curtain"; cur.innerHTML = '<img src="media/logo%20sbp/Logo%20Sasaka%20Bale%20Property.jpg" alt="">'; d.body.appendChild(cur);
   d.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
     if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || a.target || a.hasAttribute("download")) return;
