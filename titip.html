@@ -308,6 +308,212 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   "use strict";
   // ====== PENGATURAN: ubah di sini ======
   var NOMOR_WA = "6287730309578";
-  var EMAIL    = "sasakabaleacademy@gmail.com";
+  var EMAIL = "sasakabaleacademy@gmail.com";
   var DAERAH = {
-    Garut:   ["Tarogong Kidul", "Tarogong Kaler", "Garut Kota", "Karangpawitan", "Banyuresmi", "Samarang", "Leles", "Cilawu", "Kadungora"],
+    Garut: [
+      "Tarogong Kidul",
+      "Tarogong Kaler",
+      "Garut Kota",
+      "Karangpawitan",
+      "Banyuresmi",
+      "Samarang",
+      "Leles",
+      "Cilawu",
+      "Kadungora"
+    ],
+    Bandung: [
+      "Bandung Kota",
+      "Cibiru",
+      "Cimenyan",
+      "Dayeuh Kolot",
+      "Lembang",
+      "Ujung Berung",
+      "Bandung Timur",
+      "Buahbatu",
+      "Bandung Barat"
+    ]
+  };
+
+  var form = document.getElementById("f");
+  var tabs = document.querySelectorAll('[role="tab"]');
+  var tabTitip = document.getElementById("tabTitip");
+  var tabCari = document.getElementById("tabCari");
+  var paneTitip = document.getElementById("paneTitip");
+  var paneCari = document.getElementById("paneCari");
+  var kotaC = document.getElementById("kotaC");
+  var daerahC = document.getElementById("daerahC");
+  var submitBtn = document.getElementById("submit");
+  var agree = document.getElementById("agree");
+  var ok = document.getElementById("ok");
+  var mailLink = document.getElementById("mailLink");
+
+  function setMode(mode) {
+    var isTitip = mode === "titip";
+    form.dataset.mode = mode;
+    tabTitip.setAttribute("aria-selected", isTitip ? "true" : "false");
+    tabCari.setAttribute("aria-selected", isTitip ? "false" : "true");
+    paneTitip.hidden = !isTitip;
+    paneTitip.disabled = !isTitip;
+    paneCari.hidden = isTitip;
+    paneCari.disabled = isTitip;
+
+    var titipInputs = paneTitip.querySelectorAll("input, select, textarea");
+    titipInputs.forEach(function (input) {
+      input.disabled = !isTitip;
+      if (!isTitip) {
+        input.required = false;
+      }
+    });
+
+    var cariInputs = paneCari.querySelectorAll("input, select, textarea");
+    cariInputs.forEach(function (input) {
+      input.disabled = isTitip;
+      if (isTitip) {
+        input.required = false;
+      }
+    });
+
+    updateDaerahList();
+    updateSubmitButton();
+  }
+
+  function updateDaerahList() {
+    var city = document.getElementById("kotaT").value || document.getElementById("kotaC").value;
+    var list = DAERAH[city] || [];
+    var datalist = document.getElementById("daerahList");
+    datalist.innerHTML = "";
+    list.forEach(function (item) {
+      var option = document.createElement("option");
+      option.value = item;
+      datalist.appendChild(option);
+    });
+
+    var daerahTarget = document.getElementById("daerahT");
+    var cityTarget = document.getElementById("kotaT");
+    if (document.getElementById("paneCari").hidden) {
+      daerahTarget = document.getElementById("daerahT");
+      cityTarget = document.getElementById("kotaT");
+    } else {
+      daerahTarget = document.getElementById("daerahC");
+      cityTarget = document.getElementById("kotaC");
+    }
+
+    daerahTarget.disabled = !cityTarget.value;
+    daerahTarget.placeholder = cityTarget.value ? "Contoh: " + (list[0] || "Lokasi") : "Pilih kota terlebih dahulu";
+    if (!cityTarget.value) {
+      daerahTarget.value = "";
+    }
+  }
+
+  function updateSubmitButton() {
+    var requiredNodes = form.querySelectorAll("[required]:not([hidden]):not(:disabled)");
+    var complete = true;
+    requiredNodes.forEach(function (node) {
+      if (node.type === "radio") {
+        var group = form.querySelectorAll('input[name="' + node.name + '"]');
+        var checked = Array.prototype.some.call(group, function (item) {
+          return item.checked;
+        });
+        if (!checked) complete = false;
+        return;
+      }
+      if (node.type === "checkbox") {
+        if (!node.checked) complete = false;
+        return;
+      }
+      if (!node.value.trim()) {
+        complete = false;
+      }
+    });
+    submitBtn.disabled = !(agree.checked && complete);
+  }
+
+  function buildTitipMessage() {
+    var nama = document.getElementById("nama").value.trim();
+    var wa = document.getElementById("wa").value.trim();
+    var status = document.querySelector('input[name="status"]:checked');
+    var tipe = document.getElementById("tipeT").value;
+    var alamat = document.getElementById("alamatT").value.trim();
+    var kota = document.getElementById("kotaT").value;
+    var daerah = document.getElementById("daerahT").value.trim();
+    var spes = document.getElementById("spesT").value.trim();
+    var harga = document.getElementById("hargaT").value.trim();
+    var transaksi = document.getElementById("transT").value;
+    var bank = document.querySelector('input[name="bank"]:checked');
+    var msg = [
+      "Halo Sasaka Bale Property,",
+      "saya ingin titip properti.",
+      "Nama: " + nama,
+      "WhatsApp: +62 " + wa,
+      "Status kepemilikan: " + (status ? status.value : "-"),
+      "Tipe properti: " + tipe,
+      "Alamat: " + alamat,
+      "Kota: " + kota,
+      "Lokasi/daerah: " + (daerah || "-"),
+      "Spesifikasi: " + spes,
+      "Jenis transaksi: " + transaksi,
+      "Harga: Rp " + harga,
+      "Dijaminkan di bank: " + (bank ? bank.value : "-"),
+      "Mohon dapat dihubungi untuk proses lebih lanjut."
+    ];
+    return msg.join("\n");
+  }
+
+  function buildCariMessage() {
+    var nama = document.getElementById("nama").value.trim();
+    var wa = document.getElementById("wa").value.trim();
+    var tipe = document.getElementById("tipeC").value;
+    var transaksi = document.getElementById("transC").value;
+    var kota = document.getElementById("kotaC").value;
+    var daerah = document.getElementById("daerahC").value.trim();
+    var harga = document.getElementById("hargaC").value.trim();
+    var spes = document.getElementById("spesC").value.trim();
+    var msg = [
+      "Halo Sasaka Bale Property,",
+      "saya ingin cari properti.",
+      "Nama: " + nama,
+      "WhatsApp: +62 " + wa,
+      "Tipe properti: " + tipe,
+      "Jenis transaksi: " + transaksi,
+      "Kota: " + kota,
+      "Lokasi/daerah: " + (daerah || "-"),
+      "Anggaran maksimal: Rp " + harga,
+      "Kebutuhan properti: " + spes,
+      "Mohon dapat membantu mencari properti yang sesuai."
+    ];
+    return msg.join("\n");
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var mode = form.dataset.mode || "titip";
+    var msg = mode === "titip" ? buildTitipMessage() : buildCariMessage();
+    var url = "https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(msg);
+    ok.classList.add("show");
+    window.open(url, "_blank", "noopener");
+  });
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      setMode(tab.dataset.mode);
+    });
+  });
+
+  kotaC.addEventListener("change", updateDaerahList);
+  form.addEventListener("input", updateSubmitButton);
+  form.addEventListener("change", updateSubmitButton);
+  agree.addEventListener("change", updateSubmitButton);
+
+  mailLink.addEventListener("click", function (event) {
+    event.preventDefault();
+    var subject = encodeURIComponent("Permintaan properti dari situs Sasaka Bale Property");
+    var body = encodeURIComponent("Halo Sasaka Bale Property,\n\nSaya ingin mengajukan permintaan properti.\n\nNama: \nWhatsApp: \nKebutuhan: ");
+    window.location.href = "mailto:" + EMAIL + "?subject=" + subject + "&body=" + body;
+  });
+
+  setMode("titip");
+  updateSubmitButton();
+})();
+</script>
+</body>
+</html>
