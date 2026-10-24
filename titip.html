@@ -82,6 +82,7 @@ fieldset{display:grid;gap:18px;border:0;min-width:0}fieldset[hidden]{display:non
 .field>label,.field>span.lb{font-size:13px;font-weight:600}
 .field .req{color:var(--danger)}
 .hint{font-size:12px;color:var(--muted)}
+.lain{margin-top:8px}[hidden]{display:none!important}
 input[type=text],input[type=tel],select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;transition:border-color .3s,box-shadow .3s}
 input::placeholder,textarea::placeholder{color:#6f6e66}
 input:focus,select:focus,textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(169,192,143,.18)}
@@ -208,7 +209,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
             </div>
             <div class="field">
               <label for="daerahT">Lokasi/Daerah <span class="req">*</span></label>
-              <input type="text" id="daerahT" name="daerah" list="daerahList" placeholder="Pilih kota terlebih dahulu" disabled required>
+              <select id="daerahT" name="daerah" required><option value="">Pilih lokasi/daerah</option></select>
+              <input type="text" id="lainT" name="daerahLain" class="lain" placeholder="Tulis kecamatan atau perumahan" hidden disabled>
             </div>
           </div>
           <div class="field">
@@ -256,7 +258,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
             </div>
             <div class="field">
               <label for="daerahC">Lokasi/Daerah <span class="req">*</span></label>
-              <input type="text" id="daerahC" name="daerah" list="daerahList" placeholder="Pilih kota terlebih dahulu" disabled required>
+              <select id="daerahC" name="daerah" required><option value="">Pilih lokasi/daerah</option></select>
+              <input type="text" id="lainC" name="daerahLain" class="lain" placeholder="Tulis kecamatan atau perumahan" hidden disabled>
             </div>
           </div>
           <div class="field">
@@ -268,8 +271,6 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
             <textarea id="spesC" name="spesifikasi" placeholder="Contoh: minimal 2 kamar tidur, dekat sekolah, ada carport, dsb." required></textarea>
           </div>
         </fieldset>
-
-        <datalist id="daerahList"></datalist>
 
         <div class="notice">
           <strong>Catatan</strong>
@@ -308,211 +309,139 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   "use strict";
   // ====== PENGATURAN: ubah di sini ======
   var NOMOR_WA = "6287730309578";
-  var EMAIL = "sasakabaleacademy@gmail.com";
+  var EMAIL    = "sasakabaleacademy@gmail.com";
   var DAERAH = {
-    Garut: [
-      "Tarogong Kidul",
-      "Tarogong Kaler",
-      "Garut Kota",
-      "Karangpawitan",
-      "Banyuresmi",
-      "Samarang",
-      "Leles",
-      "Cilawu",
-      "Kadungora"
-    ],
-    Bandung: [
-      "Bandung Kota",
-      "Cibiru",
-      "Cimenyan",
-      "Dayeuh Kolot",
-      "Lembang",
-      "Ujung Berung",
-      "Bandung Timur",
-      "Buahbatu",
-      "Bandung Barat"
-    ]
+    Garut:   ["Tarogong Kidul", "Tarogong Kaler", "Garut Kota", "Karangpawitan", "Banyuresmi", "Samarang", "Leles", "Cilawu", "Kadungora"],
+    Bandung: ["Coblong", "Cicendo", "Lengkong", "Antapani", "Buahbatu", "Arcamanik", "Sukajadi", "Kiaracondong", "Bandung Kulon", "Cibiru"]
   };
+  // ======================================
 
-  var form = document.getElementById("f");
-  var tabs = document.querySelectorAll('[role="tab"]');
-  var tabTitip = document.getElementById("tabTitip");
-  var tabCari = document.getElementById("tabCari");
-  var paneTitip = document.getElementById("paneTitip");
-  var paneCari = document.getElementById("paneCari");
-  var kotaC = document.getElementById("kotaC");
-  var daerahC = document.getElementById("daerahC");
-  var submitBtn = document.getElementById("submit");
-  var agree = document.getElementById("agree");
-  var ok = document.getElementById("ok");
-  var mailLink = document.getElementById("mailLink");
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return [].slice.call((c || document).querySelectorAll(s)); };
+  var form = $("#f"), submit = $("#submit"), mode = "titip";
 
-  function setMode(mode) {
-    var isTitip = mode === "titip";
-    form.dataset.mode = mode;
-    tabTitip.setAttribute("aria-selected", isTitip ? "true" : "false");
-    tabCari.setAttribute("aria-selected", isTitip ? "false" : "true");
-    paneTitip.hidden = !isTitip;
-    paneTitip.disabled = !isTitip;
-    paneCari.hidden = isTitip;
-    paneCari.disabled = isTitip;
+  /* Menu mobile & header pintar */
+  var header = $("#header"), menu = $("#menu"), burger = $("#burger"), lastY = scrollY;
+  burger.addEventListener("click", function () { var o = menu.classList.toggle("open"); burger.setAttribute("aria-expanded", o); burger.textContent = o ? "✕" : "☰"; });
+  menu.addEventListener("click", function () { menu.classList.remove("open"); burger.textContent = "☰"; });
+  addEventListener("scroll", function () {
+    header.classList.toggle("hide-nav", scrollY > lastY && scrollY > 100 && !menu.classList.contains("open"));
+    lastY = scrollY;
+  }, { passive: true });
 
-    var titipInputs = paneTitip.querySelectorAll("input, select, textarea");
-    titipInputs.forEach(function (input) {
-      input.disabled = !isTitip;
-      if (!isTitip) {
-        input.required = false;
-      }
-    });
+  /* Reveal saat scroll */
+  var rev = $$(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, { threshold: .12 });
+    rev.forEach(function (el) { io.observe(el); });
+  } else rev.forEach(function (el) { el.classList.add("in"); });
 
-    var cariInputs = paneCari.querySelectorAll("input, select, textarea");
-    cariInputs.forEach(function (input) {
-      input.disabled = isTitip;
-      if (isTitip) {
-        input.required = false;
-      }
-    });
-
-    updateDaerahList();
-    updateSubmitButton();
+  /* Ganti mode: Titip / Cari */
+  function setMode(m) {
+    mode = m;
+    $$(".tabs button").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.mode === m); });
+    var t = $("#paneTitip"), c = $("#paneCari");
+    t.hidden = m !== "titip"; t.disabled = m !== "titip";
+    c.hidden = m !== "cari";  c.disabled = m !== "cari";
+    update();
   }
+  $$(".tabs button").forEach(function (b) { b.addEventListener("click", function () { setMode(b.dataset.mode); }); });
 
-  function updateDaerahList() {
-    var city = document.getElementById("kotaT").value || document.getElementById("kotaC").value;
-    var list = DAERAH[city] || [];
-    var datalist = document.getElementById("daerahList");
-    datalist.innerHTML = "";
-    list.forEach(function (item) {
-      var option = document.createElement("option");
-      option.value = item;
-      datalist.appendChild(option);
-    });
-
-    var daerahTarget = document.getElementById("daerahT");
-    var cityTarget = document.getElementById("kotaT");
-    if (document.getElementById("paneCari").hidden) {
-      daerahTarget = document.getElementById("daerahT");
-      cityTarget = document.getElementById("kotaT");
-    } else {
-      daerahTarget = document.getElementById("daerahC");
-      cityTarget = document.getElementById("kotaC");
-    }
-
-    daerahTarget.disabled = !cityTarget.value;
-    daerahTarget.placeholder = cityTarget.value ? "Contoh: " + (list[0] || "Lokasi") : "Pilih kota terlebih dahulu";
-    if (!cityTarget.value) {
-      daerahTarget.value = "";
-    }
+  /* Kota -> daftar daerah (pilihan bertingkat) */
+  function toggleLain(pane) {
+    var d = $("select[name=daerah]", pane), lain = $("input[name=daerahLain]", pane), show = d.value === "__lain";
+    lain.hidden = !show; lain.disabled = !show; lain.required = show;
+    if (!show) lain.value = "";
   }
-
-  function updateSubmitButton() {
-    var requiredNodes = form.querySelectorAll("[required]:not([hidden]):not(:disabled)");
-    var complete = true;
-    requiredNodes.forEach(function (node) {
-      if (node.type === "radio") {
-        var group = form.querySelectorAll('input[name="' + node.name + '"]');
-        var checked = Array.prototype.some.call(group, function (item) {
-          return item.checked;
-        });
-        if (!checked) complete = false;
-        return;
-      }
-      if (node.type === "checkbox") {
-        if (!node.checked) complete = false;
-        return;
-      }
-      if (!node.value.trim()) {
-        complete = false;
-      }
-    });
-    submitBtn.disabled = !(agree.checked && complete);
+  function opt(x) { return "<option>" + x + "</option>"; }
+  function cityOf(name) { return Object.keys(DAERAH).filter(function (c) { return DAERAH[c].indexOf(name) > -1; })[0] || ""; }
+  function optionsFor(city) {
+    var h = '<option value="">Pilih lokasi/daerah</option>';
+    if (city) h += DAERAH[city].map(opt).join("");
+    else Object.keys(DAERAH).forEach(function (c) { h += '<optgroup label="' + c + '">' + DAERAH[c].map(opt).join("") + "</optgroup>"; });
+    return h + '<option value="__lain">Lainnya (tulis sendiri)</option>';
   }
-
-  function buildTitipMessage() {
-    var nama = document.getElementById("nama").value.trim();
-    var wa = document.getElementById("wa").value.trim();
-    var status = document.querySelector('input[name="status"]:checked');
-    var tipe = document.getElementById("tipeT").value;
-    var alamat = document.getElementById("alamatT").value.trim();
-    var kota = document.getElementById("kotaT").value;
-    var daerah = document.getElementById("daerahT").value.trim();
-    var spes = document.getElementById("spesT").value.trim();
-    var harga = document.getElementById("hargaT").value.trim();
-    var transaksi = document.getElementById("transT").value;
-    var bank = document.querySelector('input[name="bank"]:checked');
-    var msg = [
-      "Halo Sasaka Bale Property,",
-      "saya ingin titip properti.",
-      "Nama: " + nama,
-      "WhatsApp: +62 " + wa,
-      "Status kepemilikan: " + (status ? status.value : "-"),
-      "Tipe properti: " + tipe,
-      "Alamat: " + alamat,
-      "Kota: " + kota,
-      "Lokasi/daerah: " + (daerah || "-"),
-      "Spesifikasi: " + spes,
-      "Jenis transaksi: " + transaksi,
-      "Harga: Rp " + harga,
-      "Dijaminkan di bank: " + (bank ? bank.value : "-"),
-      "Mohon dapat dihubungi untuk proses lebih lanjut."
-    ];
-    return msg.join("\n");
+  // Daerah selalu bisa dipilih. Jika kota sudah dipilih, daftar menyesuaikan kota itu.
+  function fillDaerah(kota) {
+    var pane = kota.closest("fieldset"), d = $("select[name=daerah]", pane), prev = d.value;
+    d.innerHTML = optionsFor(kota.value);
+    if (prev && $$("option", d).some(function (o) { return o.value === prev; })) d.value = prev;
+    toggleLain(pane);
   }
-
-  function buildCariMessage() {
-    var nama = document.getElementById("nama").value.trim();
-    var wa = document.getElementById("wa").value.trim();
-    var tipe = document.getElementById("tipeC").value;
-    var transaksi = document.getElementById("transC").value;
-    var kota = document.getElementById("kotaC").value;
-    var daerah = document.getElementById("daerahC").value.trim();
-    var harga = document.getElementById("hargaC").value.trim();
-    var spes = document.getElementById("spesC").value.trim();
-    var msg = [
-      "Halo Sasaka Bale Property,",
-      "saya ingin cari properti.",
-      "Nama: " + nama,
-      "WhatsApp: +62 " + wa,
-      "Tipe properti: " + tipe,
-      "Jenis transaksi: " + transaksi,
-      "Kota: " + kota,
-      "Lokasi/daerah: " + (daerah || "-"),
-      "Anggaran maksimal: Rp " + harga,
-      "Kebutuhan properti: " + spes,
-      "Mohon dapat membantu mencari properti yang sesuai."
-    ];
-    return msg.join("\n");
-  }
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    var mode = form.dataset.mode || "titip";
-    var msg = mode === "titip" ? buildTitipMessage() : buildCariMessage();
-    var url = "https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(msg);
-    ok.classList.add("show");
-    window.open(url, "_blank", "noopener");
+  // Sinkronkan ulang saat halaman dibuka/di-refresh, karena browser bisa memulihkan isian tanpa memicu event "change"
+  function syncDaerah() { $$("select[name=kota]").forEach(fillDaerah); update(); }
+  $$("select[name=kota]").forEach(function (k) {
+    k.addEventListener("change", function () { fillDaerah(k); update(); });
   });
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      setMode(tab.dataset.mode);
+  $$("select[name=daerah]").forEach(function (d) {
+    d.addEventListener("change", function () {
+      var pane = d.closest("fieldset"), kota = $("select[name=kota]", pane), c = cityOf(d.value);
+      if (c && kota.value !== c) { kota.value = c; fillDaerah(kota); }   // pilih daerah dulu -> kota terisi otomatis
+      toggleLain(pane); update();
     });
   });
 
-  kotaC.addEventListener("change", updateDaerahList);
-  form.addEventListener("input", updateSubmitButton);
-  form.addEventListener("change", updateSubmitButton);
-  agree.addEventListener("change", updateSubmitButton);
+  /* Nomor WA: hanya angka, tanpa 0/62 di depan */
+  $("#wa").addEventListener("input", function (e) {
+    var v = e.target.value.replace(/\D/g, "");
+    if (v.indexOf("62") === 0) v = v.slice(2);
+    e.target.value = v.replace(/^0+/, "");
+  });
 
-  mailLink.addEventListener("click", function (event) {
-    event.preventDefault();
-    var subject = encodeURIComponent("Permintaan properti dari situs Sasaka Bale Property");
-    var body = encodeURIComponent("Halo Sasaka Bale Property,\n\nSaya ingin mengajukan permintaan properti.\n\nNama: \nWhatsApp: \nKebutuhan: ");
-    window.location.href = "mailto:" + EMAIL + "?subject=" + subject + "&body=" + body;
+  /* Harga: pemisah ribuan */
+  $$(".rupiah").forEach(function (el) {
+    el.addEventListener("input", function () {
+      var d = el.value.replace(/\D/g, "").replace(/^0+/, "");
+      el.value = d.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    });
+  });
+
+  /* Tombol kirim aktif jika semua isian wajib valid */
+  function update() { submit.disabled = !form.checkValidity(); }
+  form.addEventListener("input", update);
+  form.addEventListener("change", update);
+
+  /* Susun pesan */
+  function val(n) {
+    var scope = $(mode === "titip" ? "#paneTitip" : "#paneCari");
+    var els = $$("[name=" + n + "]", scope);
+    if (!els.length) els = $$("[name=" + n + "]", form);
+    if (!els.length) return "-";
+    if (els[0].type === "radio") { var r = els.filter(function (x) { return x.checked; })[0]; return r ? r.value : "-"; }
+    return els[0].value.trim() || "-";
+  }
+  function buildMessage() {
+    var diri = "*Data Diri*\nNama: " + val("nama") + "\nWhatsApp: +62" + val("wa") + "\n\n";
+    var daerah = val("daerah") === "__lain" ? val("daerahLain") : val("daerah");
+    var lokasi = val("kota") + " / " + daerah;
+    if (mode === "titip") {
+      return "Halo Sasaka Bale Property, saya ingin TITIP PROPERTI.\n\n" + diri +
+        "*Data Properti*\nStatus kepemilikan: " + val("status") + "\nTipe: " + val("tipe") + "\nAlamat: " + val("alamat") +
+        "\nKota/Daerah: " + lokasi + "\nSpesifikasi: " + val("spesifikasi") + "\nHarga: Rp " + val("harga") +
+        "\nJenis transaksi: " + val("transaksi") + "\nDijaminkan di bank: " + val("bank");
+    }
+    return "Halo Sasaka Bale Property, saya ingin CARI PROPERTI.\n\n" + diri +
+      "*Properti yang Dicari*\nTipe: " + val("tipe") + "\nJenis transaksi: " + val("transaksi") + "\nKota/Daerah: " + lokasi +
+      "\nAnggaran maksimal: Rp " + val("harga") + "\nKebutuhan: " + val("spesifikasi");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    $("#ok").classList.add("show");
+    window.open("https://wa.me/" + NOMOR_WA + "?text=" + encodeURIComponent(buildMessage()), "_blank");
+  });
+  $("#mailLink").addEventListener("click", function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var subject = mode === "titip" ? "Titip Properti" : "Cari Properti";
+    location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject + " - " + val("nama")) + "&body=" + encodeURIComponent(buildMessage());
   });
 
   setMode("titip");
-  updateSubmitButton();
+  syncDaerah();
+  addEventListener("load", syncDaerah);
+  addEventListener("pageshow", syncDaerah);
 })();
 </script>
 </body>
