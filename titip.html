@@ -1,35 +1,313 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Titip Jual/Sewa Properti | Sasaka Bale Property</title><meta name="description" content="Titipkan properti Anda di Bandung atau Garut untuk dijual atau disewakan lewat Sasaka Bale Property."><meta property="og:title" content="Titip Jual/Sewa Properti | Sasaka Bale Property"><meta property="og:description" content="Titipkan properti Anda di Bandung atau Garut untuk dijual atau disewakan lewat Sasaka Bale Property."><meta property="og:image" content="Tampak%20Depan%20Kanan%20HOOK.jpg">
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141412">
+<title>Titip / Cari Properti | Sasaka Bale Property</title>
+<meta name="description" content="Titipkan properti Anda untuk dijual atau disewakan, atau minta kami carikan properti di Garut dan Bandung. Isi form, kami hubungi lewat WhatsApp.">
 <link rel="icon" href="Logo%20Sasaka%20Bale%20Property.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="animasi.css">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+/* ===== 1. Variabel & reset ===== */
+:root{--bg:#141412;--surface:#1d1d1a;--surface-2:#24241f;--line:#33332e;--text:#ecebe5;--muted:#a09f96;--accent:#a9c08f;--danger:#e58b7a;
+--serif:'Instrument Serif',Georgia,serif;--sans:'Manrope',system-ui,sans-serif;--pad:clamp(16px,4vw,56px);--nav-h:72px;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{background:var(--bg);color:var(--text);font:400 clamp(15px,.8vw + 11px,17px)/1.65 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{width:100%;max-width:min(1180px,95vw);padding:0 var(--pad);margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== 2. Header ===== */
+header{position:sticky;top:0;z-index:100;background:rgba(20,20,18,.85);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);transition:transform .4s var(--ease)}
+header.hide-nav{transform:translateY(-100%)}
+nav{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h)}
+.logo{display:flex;align-items:center;gap:12px;font:600 13px var(--sans);letter-spacing:.18em;text-transform:uppercase}
+.logo img{width:38px;height:38px;border-radius:9px}
+.menu{display:flex;align-items:center;gap:clamp(20px,3vw,40px)}
+.menu a{position:relative;padding:4px 0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--accent);transition:width .35s var(--ease)}
+.menu a:hover,.menu a.on{color:var(--text)}.menu a:hover::after,.menu a.on::after{width:100%}
+.menu a.outline{padding:10px 20px;border:1px solid var(--text);color:var(--text);transition:background .35s,color .35s}
+.menu a.outline::after{display:none}.menu a.outline:hover{background:var(--text);color:var(--bg)}
+.burger{display:none;min-width:46px;min-height:46px;border:0;background:none;color:var(--text);font-size:26px;cursor:pointer}
+@media(max-width:860px){
+ .burger{display:block}
+ .menu{position:fixed;top:var(--nav-h);left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--bg);border-bottom:1px solid var(--line);opacity:0;pointer-events:none;transform:translateY(-12px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+ .menu.open{opacity:1;pointer-events:auto;transform:none}
+ .menu a,.menu a.outline{padding:18px var(--pad);border:0;border-top:1px solid var(--line)}.menu a::after{display:none}}
+@media(max-width:400px){.logo span{display:none}}
+
+/* ===== 3. Tombol ===== */
+.btn{position:relative;z-index:0;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 28px;border:1px solid var(--text);background:none;color:var(--text);font:600 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;text-align:center;cursor:pointer;transition:color .35s var(--ease),border-color .35s,opacity .3s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--text);transform:translateY(101%);transition:transform .4s var(--ease)}
+.btn:hover:not(:disabled)::before{transform:none}.btn:hover:not(:disabled){color:var(--bg)}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#141412}.btn.solid:hover:not(:disabled){border-color:var(--text)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ===== 4. Judul & langkah ===== */
+.intro{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(24px,4vw,48px);text-align:center}
+.intro h1{font:400 clamp(32px,5vw,64px)/1.08 var(--serif);letter-spacing:-.01em;margin-top:14px}
+.intro h1 em{font-style:normal;color:var(--accent)}
+.intro .lead{max-width:56ch;margin:14px auto 0;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:18px;margin-top:36px;list-style:none;text-align:left}
+.step{display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid var(--line);border-radius:10px;background:var(--surface);transition:border-color .35s,transform .35s var(--ease)}
+.step:hover{border-color:var(--accent);transform:translateY(-4px)}
+.step.on{border-color:var(--accent)}
+.step b{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--surface-2);color:var(--accent);font:400 24px var(--serif)}
+.step strong{display:block;font-weight:600;line-height:1.35}
+.step small{display:block;margin-top:2px;color:var(--muted);font-size:13px}
+
+/* ===== 5. Tata letak form + sidebar ===== */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:clamp(20px,3vw,36px);align-items:start;padding-bottom:clamp(56px,8vw,110px)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.card{padding:clamp(20px,3vw,32px);border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.card h2{font:400 clamp(26px,3vw,34px)/1.1 var(--serif)}
+.card .sub{margin-top:2px;color:var(--muted);font-size:14px}
+
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:22px 0 8px;padding:5px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.tabs button{min-height:44px;border:0;border-radius:999px;background:none;color:var(--muted);font:600 13px var(--sans);cursor:pointer;transition:background .3s,color .3s}
+.tabs button[aria-selected="true"]{background:var(--accent);color:#141412}
+
+form{display:grid;gap:18px}
+fieldset{display:grid;gap:18px;border:0;min-width:0}fieldset[hidden]{display:none}
+.grp{display:flex;align-items:center;gap:10px;margin-top:10px;padding-bottom:10px;border-bottom:1px solid var(--line);font:600 15px var(--sans);color:var(--text)}
+.grp::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.field{display:grid;gap:7px}
+.field>label,.field>span.lb{font-size:13px;font-weight:600}
+.field .req{color:var(--danger)}
+.hint{font-size:12px;color:var(--muted)}
+input[type=text],input[type=tel],select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit;transition:border-color .3s,box-shadow .3s}
+input::placeholder,textarea::placeholder{color:#6f6e66}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(169,192,143,.18)}
+input:disabled,select:disabled{opacity:.5;cursor:not-allowed}
+textarea{min-height:96px;resize:vertical}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:38px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.prefix{display:flex}.prefix>span{display:flex;align-items:center;padding:0 14px;border:1px solid var(--line);border-right:0;border-radius:8px 0 0 8px;background:var(--surface-2);color:var(--muted);font-size:14px}
+.prefix>input{border-radius:0 8px 8px 0}
+.radios{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.radios label{position:relative;display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:14px;cursor:pointer;transition:border-color .3s,background .3s}
+.radios label:hover{border-color:var(--muted)}
+.radios input{accent-color:var(--accent);width:16px;height:16px}
+.radios label:has(input:checked){border-color:var(--accent);background:rgba(169,192,143,.08)}
+.notice{padding:16px 18px;border:1px solid rgba(169,192,143,.35);border-radius:8px;background:rgba(169,192,143,.07);font-size:13px;color:var(--muted)}
+.notice strong{display:block;margin-bottom:6px;color:var(--accent)}
+.notice ol{padding-left:18px}.notice li+li{margin-top:4px}
+.check{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border:1px solid var(--line);border-radius:8px;font-size:13px;color:var(--muted);cursor:pointer}
+.check input{flex:none;margin-top:3px;width:17px;height:17px;accent-color:var(--accent)}
+.form-note{font-size:12px;color:var(--muted);text-align:center}
+.form-note a{color:var(--accent);border-bottom:1px solid var(--accent)}
+.ok{display:none;padding:14px 16px;border:1px solid var(--accent);border-radius:8px;background:rgba(169,192,143,.1);font-size:14px}
+.ok.show{display:block}
+
+/* ===== 6. Sidebar ===== */
+aside{display:grid;gap:18px;position:sticky;top:calc(var(--nav-h) + 20px)}
+@media(max-width:900px){aside{position:static}}
+.banner{width:100%;aspect-ratio:588/263;border-radius:10px;background:url("Banner%20Logo%20Sasaka%20Bale%20Property.png") 93% 49.9%/163.3% auto no-repeat}
+.help{padding:24px;border-radius:12px;background:var(--accent);color:#141412;text-align:center}
+.help strong{display:block;font:400 26px/1.15 var(--serif);margin-bottom:16px}
+.help .btn{width:100%;border-color:#141412;color:#141412}.help .btn::before{background:#141412}.help .btn:hover{color:var(--accent)!important}
+.contact-mini{padding:18px 20px;border:1px solid var(--line);border-radius:12px;font-size:14px;color:var(--muted)}
+.contact-mini a{color:var(--text);border-bottom:1px solid var(--line)}
+
+/* ===== 7. Footer, WA, reveal ===== */
+footer{padding:32px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.wa-float{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));z-index:90;padding:13px 20px;border-radius:999px;background:var(--accent);color:#141412;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.js .reveal{opacity:1;transform:none}}
+</style>
 </head>
 <body>
-<header><div class="wrap"><nav aria-label="Navigasi utama">
-<a class="logo" href="index.html"><img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38"><span>Sasaka Bale Property</span></a>
-<button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
-<div class="menu" id="menu"><a href="listing.html">Listing Property</a>
-<a class="on" href="titip.html">Titip Jual/Sewa</a>
-<a href="about.html">About</a>
-<a class="outline" href="about.html#kontak">Kontak</a></div></nav></div></header>
+
+<!-- ============ HEADER ============ -->
+<header id="header">
+  <div class="wrap">
+    <nav aria-label="Navigasi utama">
+      <a class="logo" href="index.html"><img src="Logo%20Sasaka%20Bale%20Property.jpg" alt="Logo Sasaka Bale Property" width="38" height="38"><span>Sasaka Bale Property</span></a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
+      <div class="menu" id="menu">
+        <a href="listing.html">Listing Property</a>
+        <a class="on" href="titip.html">Titip Jual/Sewa</a>
+        <a href="about.html">About</a>
+        <a class="outline" href="about.html#kontak">Kontak</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
 <main>
-<section class="page-head"><div class="wrap"><p class="eyebrow">Khusus Bandung dan Garut</p><h1 class="t" style="margin-top:16px">Titip memasarkan jual/sewa properti Anda</h1>
-<p class="lead">Punya rumah, kontrakan, tanah, atau bangunan lain di Bandung atau Garut? Titipkan ke kami untuk dijual atau disewakan.</p>
-<div class="cols"><div><strong>1. Isi data</strong>Lengkapi form di bawah: lokasi, jenis, dan harga yang diharapkan.</div><div><strong>2. Kirim lewat WhatsApp</strong>Pesan otomatis terbuka di WhatsApp, tinggal Anda kirim.</div><div><strong>3. Kami bantu pasarkan</strong>Properti dipasarkan ke calon pembeli atau penyewa. Ketentuan kerja sama dibicarakan langsung.</div></div></div></section>
-<section><div class="wrap"><h2>Form titip properti</h2>
-<form class="f" id="f">
-<label>Nama<input name="nama" required autocomplete="name"></label>
-<label>Lokasi properti<select name="lokasi" required><option value="">Pilih lokasi</option><option>Garut</option><option>Bandung</option></select></label>
-<label>Jenis properti<select name="jenis" required><option value="">Pilih jenis</option><option>Rumah</option><option>Kontrakan/Kost</option><option>Tanah</option><option>Ruko/Kios</option><option>Lainnya</option></select></label>
-<label>Tujuan<select name="tujuan" required><option value="">Pilih tujuan</option><option>Dijual</option><option>Disewakan</option></select></label>
-<label class="full">Harga yang diharapkan<input name="harga" placeholder="Contoh: Rp 500 juta / Rp 2 juta per bulan"></label>
-<label class="full">Keterangan<textarea name="ket" placeholder="Alamat singkat, luas, jumlah kamar, kondisi, dll."></textarea></label>
-<div class="full"><button class="btn solid" type="submit">Kirim via WhatsApp</button><p class="note">Layanan ini khusus properti di Bandung dan Garut. Atau kirim email ke <a href="mailto:sasakabaleacademy@gmail.com" style="border-bottom:1px solid var(--line)">sasakabaleacademy@gmail.com</a>.</p></div>
-</form></div></section></main>
-<footer><div class="wrap"><span>© 2026 Sasaka Bale Property · Bandung &amp; Garut</span><a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></div></footer>
+  <!-- ============ 3 LANGKAH ============ -->
+  <section class="wrap intro">
+    <p class="eyebrow reveal">Khusus Garut dan Bandung</p>
+    <h1 class="reveal">3 Langkah Praktis <em>Titip/Cari Properti</em> di Sasaka Bale Property</h1>
+    <p class="lead reveal">Proses cepat dan langsung terhubung dengan tim kami lewat WhatsApp.</p>
+    <ol class="steps">
+      <li class="reveal"><a class="step on" href="#form"><b>1</b><span><strong>Isi form kebutuhan properti Anda</strong><small>Klik untuk isi form →</small></span></a></li>
+      <li class="reveal"><div class="step"><b>2</b><span><strong>Kami periksa dan proses data Anda</strong><small>Properti dipasarkan atau dicarikan</small></span></div></li>
+      <li class="reveal"><div class="step"><b>3</b><span><strong>Kami hubungi Anda lewat WhatsApp</strong><small>Diskusi langsung dengan tim kami</small></span></div></li>
+    </ol>
+  </section>
+
+  <!-- ============ FORM + SIDEBAR ============ -->
+  <div class="wrap layout">
+    <div class="card reveal" id="form">
+      <h2>Kebutuhan Properti</h2>
+      <p class="sub">Pilih jenis layanan yang Anda butuhkan.</p>
+
+      <div class="tabs" role="tablist" aria-label="Jenis layanan">
+        <button type="button" role="tab" id="tabTitip" aria-selected="true" data-mode="titip">Titip Properti</button>
+        <button type="button" role="tab" id="tabCari" aria-selected="false" data-mode="cari">Cari Properti</button>
+      </div>
+
+      <form id="f" novalidate>
+        <!-- Data diri (dipakai kedua mode) -->
+        <h3 class="grp">Data Diri</h3>
+        <div class="field">
+          <label for="nama">Nama Lengkap <span class="req">*</span></label>
+          <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap Anda" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="wa">Nomor WhatsApp <span class="req">*</span></label>
+          <div class="prefix"><span>+62</span><input type="tel" id="wa" name="wa" placeholder="877 3030 9578" inputmode="numeric" autocomplete="tel-national" pattern="[1-9][0-9]{7,12}" required></div>
+          <span class="hint">Tulis tanpa angka 0 di depan. Contoh: 877 3030 9578</span>
+        </div>
+
+        <!-- Mode: TITIP -->
+        <fieldset id="paneTitip">
+          <h3 class="grp">Data Properti</h3>
+          <div class="field">
+            <span class="lb">Status Kepemilikan <span class="req">*</span></span>
+            <div class="radios">
+              <label><input type="radio" name="status" value="Pribadi" required> Pribadi</label>
+              <label><input type="radio" name="status" value="Orang lain"> Orang lain</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="tipeT">Tipe Properti <span class="req">*</span></label>
+            <select id="tipeT" name="tipe" required>
+              <option value="">Pilih tipe</option><option>Rumah</option><option>Kontrakan/Kost</option><option>Tanah</option><option>Ruko/Kios</option><option>Apartemen</option><option>Gudang</option><option>Lainnya</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="alamatT">Alamat Properti <span class="req">*</span></label>
+            <textarea id="alamatT" name="alamat" placeholder="Isi alamat lengkap properti" required></textarea>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="kotaT">Kota Properti <span class="req">*</span></label>
+              <select id="kotaT" name="kota" required><option value="">Pilih kota</option><option>Garut</option><option>Bandung</option></select>
+            </div>
+            <div class="field">
+              <label for="daerahT">Lokasi/Daerah <span class="req">*</span></label>
+              <input type="text" id="daerahT" name="daerah" list="daerahList" placeholder="Pilih kota terlebih dahulu" disabled required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="spesT">Spesifikasi Properti <span class="req">*</span></label>
+            <textarea id="spesT" name="spesifikasi" placeholder="Contoh: rumah 2 lantai, luas tanah 300 m², luas bangunan 250 m², dsb." required></textarea>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="hargaT">Harga <span class="req">*</span></label>
+              <div class="prefix"><span>Rp</span><input type="text" id="hargaT" name="harga" class="rupiah" inputmode="numeric" placeholder="0" required></div>
+            </div>
+            <div class="field">
+              <label for="transT">Jenis Transaksi <span class="req">*</span></label>
+              <select id="transT" name="transaksi" required><option value="">Pilih jenis transaksi</option><option>Dijual</option><option>Disewakan</option></select>
+            </div>
+          </div>
+          <div class="field">
+            <span class="lb">Apakah properti dijaminkan di bank? <span class="req">*</span></span>
+            <div class="radios">
+              <label><input type="radio" name="bank" value="Ya, dijaminkan" required> Ya, dijaminkan</label>
+              <label><input type="radio" name="bank" value="Tidak dijaminkan"> Tidak dijaminkan</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Mode: CARI -->
+        <fieldset id="paneCari" hidden disabled>
+          <h3 class="grp">Properti yang Dicari</h3>
+          <div class="two">
+            <div class="field">
+              <label for="tipeC">Tipe Properti <span class="req">*</span></label>
+              <select id="tipeC" name="tipe" required>
+                <option value="">Pilih tipe</option><option>Rumah</option><option>Kontrakan/Kost</option><option>Tanah</option><option>Ruko/Kios</option><option>Apartemen</option><option>Gudang</option><option>Lainnya</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="transC">Jenis Transaksi <span class="req">*</span></label>
+              <select id="transC" name="transaksi" required><option value="">Pilih jenis transaksi</option><option>Beli</option><option>Sewa/Kontrak</option></select>
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="kotaC">Kota <span class="req">*</span></label>
+              <select id="kotaC" name="kota" required><option value="">Pilih kota</option><option>Garut</option><option>Bandung</option></select>
+            </div>
+            <div class="field">
+              <label for="daerahC">Lokasi/Daerah <span class="req">*</span></label>
+              <input type="text" id="daerahC" name="daerah" list="daerahList" placeholder="Pilih kota terlebih dahulu" disabled required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="hargaC">Anggaran Maksimal <span class="req">*</span></label>
+            <div class="prefix"><span>Rp</span><input type="text" id="hargaC" name="harga" class="rupiah" inputmode="numeric" placeholder="0" required></div>
+          </div>
+          <div class="field">
+            <label for="spesC">Kebutuhan Properti <span class="req">*</span></label>
+            <textarea id="spesC" name="spesifikasi" placeholder="Contoh: minimal 2 kamar tidur, dekat sekolah, ada carport, dsb." required></textarea>
+          </div>
+        </fieldset>
+
+        <datalist id="daerahList"></datalist>
+
+        <div class="notice">
+          <strong>Catatan</strong>
+          <ol>
+            <li>Untuk titip properti, Anda adalah pemilik atau memiliki izin dari pemilik properti tersebut.</li>
+            <li>Informasi yang Anda berikan sesuai dengan kondisi sebenarnya.</li>
+            <li>Data Anda hanya dipakai untuk menghubungi Anda terkait properti ini.</li>
+          </ol>
+        </div>
+        <label class="check"><input type="checkbox" id="agree" required><span>Dengan mengirim data, saya menyatakan informasi di atas benar dan bersedia dihubungi oleh Sasaka Bale Property melalui WhatsApp.</span></label>
+
+        <div class="ok" id="ok" role="status">WhatsApp akan terbuka dengan pesan yang sudah terisi. Tekan tombol kirim di WhatsApp untuk menyelesaikan.</div>
+        <button class="btn solid" id="submit" type="submit" disabled>Kirim via WhatsApp</button>
+        <p class="form-note">Lebih nyaman lewat email? <a href="#" id="mailLink">Kirim lewat email</a></p>
+      </form>
+    </div>
+
+    <aside>
+      <div class="banner reveal" role="img" aria-label="Banner Sasaka Bale Property"></div>
+      <div class="help reveal">
+        <strong>Butuh bantuan seputar titip atau cari properti?</strong>
+        <a class="btn" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener">Hubungi kami</a>
+      </div>
+      <div class="contact-mini reveal">WhatsApp: <a href="https://wa.me/6287730309578" target="_blank" rel="noopener">(+62) 877-3030-9578</a><br>Email: <a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Sasaka Bale Property · Bandung &amp; Garut</span><a href="mailto:sasakabaleacademy@gmail.com">sasakabaleacademy@gmail.com</a></div>
+</footer>
 <a class="wa-float" href="https://wa.me/6287730309578?text=Halo%20Sasaka%20Bale%20Property" target="_blank" rel="noopener" aria-label="Chat WhatsApp">WhatsApp</a>
-<script>var f=document.getElementById("f");f.addEventListener("submit",function(e){e.preventDefault();var v=function(n){return f.elements[n].value.trim()};var t="Halo Sasaka Bale Property, saya ingin menitipkan properti ("+v("tujuan")+").\n\nNama: "+v("nama")+"\nLokasi: "+v("lokasi")+"\nJenis: "+v("jenis")+"\nHarga: "+(v("harga")||"-")+"\nKeterangan: "+(v("ket")||"-");window.open("https://wa.me/6287730309578?text="+encodeURIComponent(t),"_blank")});</script>
-<script src="animasi.js" defer></script>
-</body></html>
+
+<script>
+(function () {
+  "use strict";
+  // ====== PENGATURAN: ubah di sini ======
+  var NOMOR_WA = "6287730309578";
+  var EMAIL    = "sasakabaleacademy@gmail.com";
+  var DAERAH = {
+    Garut:   ["Tarogong Kidul", "Tarogong Kaler", "Garut Kota", "Karangpawitan", "Banyuresmi", "Samarang", "Leles", "Cilawu", "Kadungora"],
