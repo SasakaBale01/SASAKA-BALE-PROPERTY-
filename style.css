@@ -120,3 +120,15 @@ footer{padding:32px 0;border-top:1px solid var(--line);font-size:13px;color:var(
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 .wa-float{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));z-index:90;padding:13px 20px;border-radius:999px;background:var(--accent);color:#141412;font-weight:600;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.4);transition:transform .35s var(--ease),box-shadow .35s}
 .wa-float:hover{transform:translateY(-4px) scale(1.05)}
+
+/* About: kartu layanan yang bisa diklik */
+.cols .svc{position:relative;cursor:pointer;transition:border-color .35s var(--ease),transform .4s var(--ease)}
+.cols .svc:hover{border-top-color:var(--accent);transform:translateY(-4px)}
+.cols .svc strong{transition:color .3s}
+.cols .svc:hover strong{color:var(--accent)}
+.svc-link{display:block;width:max-content;margin-top:12px;color:var(--accent);font-size:13px;font-weight:600;letter-spacing:.08em}
+.svc-link::after{content:"";position:absolute;inset:0}
+.svc-link span{display:inline-block;transition:transform .35s var(--ease)}
+.svc:hover .svc-link span{transform:translateX(6px)}
+.cols .inl{color:var(--text);border-bottom:1px solid var(--line);transition:color .3s,border-color .3s}
+.cols .inl:hover{color:var(--accent);border-color:var(--accent)}
